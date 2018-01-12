@@ -103,13 +103,12 @@ void allocMem(Player players[], char size)
 
 	try
 	{
-		for (int whichGrid = 0; whichGrid < NUMPLAYERS; whichGrid++)
+		for (int whichGrid = 0; whichGrid < NUMPLAYERS; whichGrid++) // loop through both grid types -- current player and opponent.
 		{
-			for (short i = 0; i < NUMPLAYERS; ++i)
+			for (short i = 0; i < NUMPLAYERS; ++i) // loop through both players -- player 1 and player 2 (remember, each player has 2 grids. His and opponents.
 			{
-				players[i].m_gameGrid[whichGrid] = nullptr;
-				players[i].m_gameGrid[whichGrid] = 
-					new Ship*[numberOfRows];
+				players[i].m_gameGrid[whichGrid] = nullptr; // initialize to null pointer -- simplifies debugging if exception thrown by line below --cleans this spot
+				players[i].m_gameGrid[whichGrid] = new Ship*[numberOfRows]; // allocate memory for array of pointers to ships -- each item constitutes a row pointer.
 				for (short j = 0; j < numberOfRows; ++j)
 				{
 				//--------------------------------------------
@@ -121,9 +120,7 @@ void allocMem(Player players[], char size)
 				//---------------------------------------------
 					for(short k = 0; k < numberOfCols; ++k)
 					{
-						players[i].m_gameGrid[
-							whichGrid][j][k] 
-								= NOSHIP;
+						players[i].m_gameGrid[whichGrid][j][k] = NOSHIP; // initialize all items in row to NOSHIP
 					} // end for k
 				} // end for j
 
@@ -176,6 +173,19 @@ void deleteMem(Player players[], char size)
 	// be sure to check if the memory was allocated 
 	//  (!nullptr) BEFORE deleting
 
+	for (int whichGrid = 0; whichGrid < NUMPLAYERS; whichGrid++) // loop through both types of grids
+	{
+		for (short i = 0; i < NUMPLAYERS; i++) // loop through both players
+		{
+			for (short j = 0; j < numberOfRows; j++)
+			{
+				// if pointer is NOT null --> delete the array of ships this row pointer points to.
+				if (players[i].m_gameGrid[whichGrid][j] != nullptr)
+					delete[] players[i].m_gameGrid[whichGrid][j];
+			}
+		}
+	}
+	//cout << "Delete function completed" << endl;
 }
 
 //----------------------------------------------------------------------------
