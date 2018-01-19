@@ -90,6 +90,8 @@ int main(void)
 		initializePlayer(game + 1);
 		// dynamically create the rows of the array
 		allocMem(game, gridSize);
+
+		
 		
 		// YOUR CODE GOES HERE ...
 

@@ -87,8 +87,8 @@ struct ShipInfo
 struct Player
 {
 	Ship ** m_gameGrid[NUMPLAYERS]; // one 2-d array for each player
-						// [0] is player's grid;
-						// [1] is opponant's grid
+						            // [0] is player's grid;
+						            // [1] is opponent's grid
 	ShipInfo m_ships[SHIP_SIZE_ARRAYSIZE];	// ships in fleet-- 
 						//   [0] is blank	
 	short m_piecesLeft;	// how many sections of fleet are left?

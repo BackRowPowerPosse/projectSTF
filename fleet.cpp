@@ -108,16 +108,17 @@ void allocMem(Player players[], char size)
 			for (short i = 0; i < NUMPLAYERS; ++i) // loop through both players -- player 1 and player 2 (remember, each player has 2 grids. His and opponents.
 			{
 				players[i].m_gameGrid[whichGrid] = nullptr; // initialize to null pointer -- simplifies debugging if exception thrown by line below --cleans this spot
-				players[i].m_gameGrid[whichGrid] = new Ship*[numberOfRows]; // allocate memory for array of pointers to ships -- each item constitutes a row pointer.
+				players[i].m_gameGrid[whichGrid] = new Ship * [numberOfRows]; // allocate memory for array of pointers to ships -- each item constitutes a row pointer.
 				for (short j = 0; j < numberOfRows; ++j)
 				{
 				//--------------------------------------------
 				//	your code goes here ...
 				// set the pointers to NULL, then allocate the
 				// memory for each row in each grid
+				//--------------------------------------------
+					players[i].m_gameGrid[whichGrid][j] = nullptr;
+					players[i].m_gameGrid[whichGrid][j] = new Ship [numberOfCols];
 
-
-				//---------------------------------------------
 					for(short k = 0; k < numberOfCols; ++k)
 					{
 						players[i].m_gameGrid[whichGrid][j][k] = NOSHIP; // initialize all items in row to NOSHIP
@@ -127,6 +128,7 @@ void allocMem(Player players[], char size)
 			} // end for i
 		} // end for whichGrid
 	}
+
 	catch(exception e)
 	{
 		deleteMem(players, size);
@@ -183,6 +185,8 @@ void deleteMem(Player players[], char size)
 				if (players[i].m_gameGrid[whichGrid][j] != nullptr)
 					delete[] players[i].m_gameGrid[whichGrid][j];
 			}
+			if (players[i].m_gameGrid[whichGrid] != nullptr)
+				delete[] players[i].m_gameGrid[whichGrid];
 		}
 	}
 	//cout << "Delete function completed" << endl;
