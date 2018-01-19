@@ -291,8 +291,22 @@ void printGrid(ostream& sout, Ship** grid, char size)
 	sout  << endl;
 	// your code goes here ...
 	// use printShip for each element in the grid
-
-
+	char ch = 'A';
+	for (short i = 0; i < numberOfRows; ++i)
+	{
+		cout << ch++;
+		for (short j = 0; j < numberOfCols; ++j)
+		{
+			printShip(sout, grid[i][j]);
+		}
+		sout << endl;
+		sout << HORIZ;
+		for (short j = 0; j < numberOfCols; ++j)
+		{
+			sout << HORIZ << HORIZ << CR;
+		}
+		sout << endl;
+	} 
 } 
 
 //----------------------------------------------------------------------------

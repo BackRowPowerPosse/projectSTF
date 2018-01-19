@@ -95,25 +95,25 @@ int main(void)
 		
 		// YOUR CODE GOES HERE ...
 
-		for(whichPlayer = 0; whichPlayer < NUMPLAYERS; whichPlayer++)
-		{
-			// enter grid files or let users enter ships
+		//for(whichPlayer = 0; whichPlayer < NUMPLAYERS; whichPlayer++)
+		//{
+		//	// enter grid files or let users enter ships
 
-		}
-		whichPlayer = 0;
-		while(!gameOver)
-		{
-			// YOUR CODE GOES HERE ....
+		//}
+		//whichPlayer = 0;
+		//while(!gameOver)
+		//{
+		//	// YOUR CODE GOES HERE ....
 
 
-			whichPlayer = !whichPlayer;  // switch players
-		}
-		// clean up memory ...
+		//	whichPlayer = !whichPlayer;  // switch players
+		//}
+		//// clean up memory ...
 
 		again = safeChoice("Would you like to play again?", 'Y', 'N');
 	}
 	while(again == 'Y');
-	
+	printGrid(cout, game[0].m_gameGrid[0], gridSize);
 	_CrtDumpMemoryLeaks();
 	return EXIT_SUCCESS;
 } 
