@@ -33,7 +33,7 @@ const int TOTALPIECES = 17; // total pieces in all ships
 // Title:		Set ShipInfo
 // Description:
 //		Sets struct ShipInfo fields
-// Programmer:
+// Programmer:	Albert Shymanskyy
 // 
 // Date:	12/20/05
 //
@@ -43,9 +43,9 @@ const int TOTALPIECES = 17; // total pieces in all ships
 //                Software:   MS Windows 10 for execution; 
 //                Compiles under Microsoft Visual C++.Net 2017
 //
-// Calls:
+// Calls: None
 //
-// Called By:
+// Called By: initializePlayer()
 //
 // Parameters:	shipInfoPtr: ShipInfo *; pointer to the ShipInfo to be set
 //	name: Ship;	enumerated name of type of ship; default: NOSHIP
@@ -57,12 +57,17 @@ const int TOTALPIECES = 17; // total pieces in all ships
 //
 // History Log:
 //		12/20/05 PB completed v 0.1
+//		01/22/18 Function completed
 //   
 //----------------------------------------------------------------------------
 void setShipInfo(ShipInfo * shipInfoPtr, Ship name, Direction orientation,
 	unsigned short row, unsigned short col)
 {
-	
+	shipInfoPtr->m_name = name;
+	shipInfoPtr->m_orientation = orientation;
+	shipInfoPtr->m_bowLocation.m_row = row;
+	shipInfoPtr->m_bowLocation.m_col = col;
+	shipInfoPtr->m_piecesLeft = name;
 } 
 
 //----------------------------------------------------------------------------
@@ -111,11 +116,6 @@ void allocMem(Player players[], char size)
 				players[i].m_gameGrid[whichGrid] = new Ship * [numberOfRows]; // allocate memory for array of pointers to ships -- each item constitutes a row pointer.
 				for (short j = 0; j < numberOfRows; ++j)
 				{
-				//--------------------------------------------
-				//	your code goes here ...
-				// set the pointers to NULL, then allocate the
-				// memory for each row in each grid
-				//--------------------------------------------
 					players[i].m_gameGrid[whichGrid][j] = nullptr;
 					players[i].m_gameGrid[whichGrid][j] = new Ship [numberOfCols];
 
@@ -170,10 +170,6 @@ void allocMem(Player players[], char size)
 void deleteMem(Player players[], char size) 
 {
 	short numberOfRows = (toupper(size) == 'L') ? LARGEROWS : SMALLROWS;
-	// your code goes here ...
-	// delete[] in reverse order of allocMem()
-	// be sure to check if the memory was allocated 
-	//  (!nullptr) BEFORE deleting
 
 	for (int whichGrid = 0; whichGrid < NUMPLAYERS; whichGrid++) // loop through both types of grids
 	{
