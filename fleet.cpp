@@ -285,8 +285,6 @@ void printGrid(ostream& sout, Ship** grid, char size)
 	for(short j = 1; j <= numberOfCols; ++j)
 		sout << setw(3) << j;
 	sout  << endl;
-	// your code goes here ...
-	// use printShip for each element in the grid
 	char ch = 'A';
 	for (short i = 0; i < numberOfRows; ++i)
 	{
@@ -391,7 +389,7 @@ void setships(Player players[], char size, short whichPlayer)
 		outSStream.str("");
 		outSStream << "Player " << whichPlayer + 1 << " Enter "
 			<< shipNames[j] << " orientation";
-		input =  safeChoice(outSStream.str(), 'V', 'H');
+		input = safeChoice(outSStream.str(), 'V', 'H');
 		players[whichPlayer].m_ships[j].m_orientation
 			= (input == 'V') ? VERTICAL : HORIZONTAL;
 		cout << "Player " << whichPlayer + 1 << " Enter " << 
@@ -406,12 +404,18 @@ void setships(Player players[], char size, short whichPlayer)
 			cout << "invalid location. Press <enter>" ;
 			cin.get();
 			j--; // redo
+
 			continue;
 		}
-		// YOUR CODE GOES HERE ...
-	
+		
+		printGrid(cout, players[whichPlayer].m_gameGrid[0], size);
+
 		cout << "Player " << whichPlayer + 1 << shipNames[j];
-	    (safeChoice("OK?", 'Y', 'N') != ('Y' || 'N'));
+		if (safeChoice(" OK?", 'Y', 'N') == 'N')
+		{
+			j--;
+			continue;
+		}
 
 	} // end for j
 	save = safeChoice("\nSave starting grid?", 'Y', 'N');
