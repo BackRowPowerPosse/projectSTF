@@ -413,9 +413,9 @@ void setships(Player players[], char size, short whichPlayer)
 			continue;
 		}
 		// YOUR CODE GOES HERE ...
-
-
-
+	
+		cout << "Player " << whichPlayer + 1 << shipNames[j];
+	    (safeChoice("OK?", 'Y', 'N') != ('Y' || 'N'));
 
 	} // end for j
 	save = safeChoice("\nSave starting grid?", 'Y', 'N');
@@ -520,7 +520,7 @@ bool loadGridFromFile(Player players[], short whichPlayer, char size,
 			cin.ignore(FILENAME_MAX, '\n');
 			return false;
 		}
-	}
+	} 
 	catch(exception e)
 	{
 		cout << "could not open file " << fileName << endl

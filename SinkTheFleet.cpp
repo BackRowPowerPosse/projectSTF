@@ -74,7 +74,6 @@ int main(void)
 	string filename;
 	Ship shipHit = NOSHIP;
 	Player game[NUMPLAYERS];	// the two players in an array
-	ifstream inFile;
 	// YOUR CODE GOES HERE ...
 
 	do
@@ -93,26 +92,42 @@ int main(void)
 		allocMem(game, gridSize);
 		
 		// YOUR CODE GOES HERE ...
-
+		ifstream inFile;
 		for(whichPlayer = 0; whichPlayer < NUMPLAYERS; whichPlayer++)
 		{
-		//	// enter grid files or let users enter ships
-			cout << "Player " << whichPlayer + 1 << ", ";
-			if (safeChoice(message, 'Y', 'N') == 'Y')
-			{
-				cout << "Enter file name: ";
-				std::cin >> filename;
-				filename.append(".shp");
-				inFile.open(filename);
-				if (!inFile.is_open())
-				{
-					cout << "Unable to open file: " << filename << ".";
-					cout << endl << "press <enter> to continue";
-					continue;
-				}
-			}
-		    	
+			//// enter grid files or let users enter ships
+			//cout << "Player " << whichPlayer + 1 << ", ";
+			//bool gridChoiceSuccess = false; //will be set to true if grid is succesfully opened or user decides to manually set ships
+			//while (!gridChoiceSuccess)
+			//{ 
+			//	switch (safeChoice(message, 'Y', 'N'))
+			//	{
+			//		case 'Y':
+			//		{
+			//			cout << "Enter file name: ";
+			//			std::cin >> filename;
+			//			filename.append(".shp");
+			//			inFile.open(filename);
+			//			if (!inFile.is_open()) //file validation
+			//			{
+			//				system("cls");
+			//				cout << "Unable to open file: " << filename;
+			//				cout << endl << "press <enter> to continue" << endl;
+			//				cin.get();
+			//				cin.ignore(FILENAME_MAX, '\n');
+			//			}
+			//			//print the .shp fil to the screen if successful opening.
+			//			break;
+			//		}
+			//		case 'N':
+			//		{
+			//			gridChoiceSuccess = true;
+			//			printGrid(cout, game[0].m_gameGrid[0], gridSize);
 
+			//			break;
+			//		}
+			//	}
+			//}
 		}
 		whichPlayer = 0;
 		while (!gameOver);
