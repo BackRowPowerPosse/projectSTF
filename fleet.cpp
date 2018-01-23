@@ -67,7 +67,7 @@ void setShipInfo(ShipInfo * shipInfoPtr, Ship name, Direction orientation,
 	shipInfoPtr->m_orientation = orientation;
 	shipInfoPtr->m_bowLocation.m_row = row;
 	shipInfoPtr->m_bowLocation.m_col = col;
-	shipInfoPtr->m_piecesLeft = name;
+	shipInfoPtr->m_piecesLeft = shipSize[name];
 } 
 
 //----------------------------------------------------------------------------
