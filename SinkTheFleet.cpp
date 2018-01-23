@@ -70,10 +70,11 @@ int main(void)
 	bool gameOver = false;
 	bool reshot = false;
 	Cell coord = {0, 0};
-	string message;
+	string message = "would you like to read starting grid from a file?(Y/N): Y\b";
 	string filename;
 	Ship shipHit = NOSHIP;
 	Player game[NUMPLAYERS];	// the two players in an array
+	ifstream inFile;
 	// YOUR CODE GOES HERE ...
 
 	do
@@ -90,31 +91,44 @@ int main(void)
 		initializePlayer(game + 1);
 		// dynamically create the rows of the array
 		allocMem(game, gridSize);
-
-		
 		
 		// YOUR CODE GOES HERE ...
 
 		for(whichPlayer = 0; whichPlayer < NUMPLAYERS; whichPlayer++)
 		{
 		//	// enter grid files or let users enter ships
-			cout << "Player " << whichPlayer + 1 << ", would you like to read starting grid from a file? (Y/N): ";
-		//}
-		//whichPlayer = 0;
-		//while(!gameOver)
+			cout << "Player " << whichPlayer + 1 << ", ";
+			if (safeChoice(message, 'Y', 'N') == 'Y')
+			{
+				cout << "Enter file name: ";
+				std::cin >> filename;
+				filename.append(".shp");
+				inFile.open(filename);
+				if (!inFile.is_open())
+				{
+					cout << "Unable to open file: " << filename << ".";
+					cout << endl << "press <enter> to continue";
+					continue;
+				}
+			}
+		    	
+
+		}
+		whichPlayer = 0;
+		while (!gameOver);
 		//{
 		//	// YOUR CODE GOES HERE ....
 
-
 		//	whichPlayer = !whichPlayer;  // switch players
-		}
+		//}
 		//// clean up memory ...
 
 		again = safeChoice("Would you like to play again?", 'Y', 'N');
+
 	}
 	while(again == 'Y');
 	printGrid(cout, game[0].m_gameGrid[0], gridSize);
-	cin.get();
 	_CrtDumpMemoryLeaks();
+	cin.get();
 	return EXIT_SUCCESS;
 } 
