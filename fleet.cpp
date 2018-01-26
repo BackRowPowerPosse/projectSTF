@@ -394,9 +394,10 @@ void setships(Player players[], char size, short whichPlayer)
 			= (input == 'V') ? VERTICAL : HORIZONTAL;
 		cout << "Player " << whichPlayer + 1 << " Enter " << 
 			shipNames[j] <<	
-			" bow coordinates <row letter><col #>: ";
+			" bow coordinates <row letter><col #>:" << endl;
 		players[whichPlayer].m_ships[j].m_bowLocation = location
-			= getCoord(cin, size);
+			= getCoord(cin, size); 
+		//^ sets 'Cell' part of struct to coordinates entered by user ^
 
 		// if ok
 		if(!isValidLocation(players[whichPlayer], j, size))
@@ -407,10 +408,12 @@ void setships(Player players[], char size, short whichPlayer)
 
 			continue;
 		}
-		
-		printGrid(cout, players[whichPlayer].m_gameGrid[0], size);
+		system("cls");
+		setShipInfo(players->m_ships + j, static_cast<Ship>(j), players->m_ships->m_orientation, location.m_row, location.m_col);
 
-		cout << "Player " << whichPlayer + 1 << shipNames[j];
+		printGrid(cout, players[whichPlayer].m_gameGrid[0], size);
+		/*printShip(cout, players->m_ships->m_name);*/
+		cout << "Player " << whichPlayer + 1 << " " << shipNames[j];
 		if (safeChoice(" OK?", 'Y', 'N') == 'N')
 		{
 			j--;

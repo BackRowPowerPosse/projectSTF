@@ -98,7 +98,7 @@ int main(void)
 
 			// enter grid files or let users enter ships
 
-			cout << "Player " << whichPlayer + 1 << ", ";
+			cout << "Player " << whichPlayer + 1 << ", "; // could replace with and outSStream
 			bool gridChoiceSuccess = false; //will be set to true if grid is succesfully opened or user decides to manually set ships
 		    while (!gridChoiceSuccess)
 			{ 
@@ -106,19 +106,17 @@ int main(void)
 				{
 					case 'Y':
 					{
+						gridChoiceSuccess = true;
 						cout << "Enter file name: ";
 						std::cin >> filename;
 						filename.append(".shp");
 						loadGridFromFile(game, whichPlayer, gridSize, filename);
-
-						gridChoiceSuccess = true;
 						break;
 					}
 					case 'N':
 					{
 						gridChoiceSuccess = true;
-						printGrid(cout, game[0].m_gameGrid[0], gridSize);
-
+						setships(game, gridSize, whichPlayer);
 						break;
 					}
 				}
@@ -137,7 +135,6 @@ int main(void)
 
 	}
 	while(again == 'Y');
-	printGrid(cout, game[0].m_gameGrid[0], gridSize);
 	_CrtDumpMemoryLeaks();
 	cin.get();
 	return EXIT_SUCCESS;
