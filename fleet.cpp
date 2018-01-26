@@ -636,8 +636,23 @@ bool isValidLocation(const Player& player, short shipNumber, char size)
 {
 	short numberOfRows = (toupper(size) == 'L') ? LARGEROWS : SMALLROWS;
 	short numberOfCols = (toupper(size) == 'L') ? LARGECOLS : SMALLCOLS;
-	// your code goes here ...
+	
+	if (player.m_ships[shipNumber].m_orientation == 'V')
+	{
+		if (player.m_ships[shipNumber].m_bowLocation.m_row + shipSize[shipNumber] - 1 <= numberOfRows)
+			return false;
+	}
+	else
+	{
+		if (player.m_ships[shipNumber].m_bowLocation.m_col + shipSize[shipNumber] - 1 <= numberOfCols)
+			return false;
+	}
 
+	for (i = shipNumber; i++)
+	{
+
+	}
+	
 	// replace the return value
 	return true;
 }
