@@ -637,20 +637,34 @@ bool isValidLocation(const Player& player, short shipNumber, char size)
 	short numberOfRows = (toupper(size) == 'L') ? LARGEROWS : SMALLROWS;
 	short numberOfCols = (toupper(size) == 'L') ? LARGECOLS : SMALLCOLS;
 	
-	if (player.m_ships[shipNumber].m_orientation == 'V')
-	{
-		if (player.m_ships[shipNumber].m_bowLocation.m_row + shipSize[shipNumber] - 1 <= numberOfRows)
-			return false;
-	}
-	else
-	{
-		if (player.m_ships[shipNumber].m_bowLocation.m_col + shipSize[shipNumber] - 1 <= numberOfCols)
-			return false;
-	}
+	// Check if new ship is out of bounds vertically and horizontally
+	if (player.m_ships[shipNumber].m_bowLocation.m_row + shipSize[shipNumber]
+		- 1 <= numberOfRows
+		&&
+		player.m_ships[shipNumber].m_bowLocation.m_col + shipSize[shipNumber]
+		- 1 <= numberOfCols)
+		return false;
 
-	for (i = shipNumber; i++)
+	// Check for each cell of the new ship
+	for (int k = 0; k < shipSize[shipNumber]; k++)
 	{
-
+		// Check for each existing ship
+		for (int i = 1; i < shipNumber; i++)
+		{
+			// Check for each cell occupied by existing ships
+			for (int j = 0; j < shipSize[i]; j++)
+			{
+				// Check if one of the cells of the new ship
+				// conflicts with one of the cells of one of the
+				// existing ships
+				if (player.m_ships[shipNumber].m_bowLocation.m_row + k
+					== player.m_ships[i].m_bowLocation.m_row + j
+					&&
+					player.m_ships[shipNumber].m_bowLocation.m_col + k
+					== player.m_ships[i].m_bowLocation.m_col + j)
+					return false;
+			}
+		}
 	}
 	
 	// replace the return value
