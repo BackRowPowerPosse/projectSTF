@@ -642,10 +642,10 @@ bool isValidLocation(const Player& player, short shipNumber, char size)
 	
 	// Check if new ship is out of bounds vertically and horizontally
 	if (player.m_ships[shipNumber].m_bowLocation.m_row + shipSize[shipNumber]
-		- 1 <= numberOfRows
-		&&
+		- 1 >= numberOfRows
+		||
 		player.m_ships[shipNumber].m_bowLocation.m_col + shipSize[shipNumber]
-		- 1 <= numberOfCols)
+		- 1 >= numberOfCols)
 		return false;
 
 	// Check for each cell of the new ship
