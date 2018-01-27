@@ -408,15 +408,34 @@ void setships(Player players[], char size, short whichPlayer)
 
 			continue;
 		}
+
+		// Update the grid with cells of a new ship
+		if (input == 'V')
+			for (short k = 0; k < shipSize[j]; k++)
+				players[whichPlayer].m_gameGrid[0][location.m_row + k]
+				[location.m_col] = static_cast<Ship>(j);
+		else
+			for (short k = 0; k < shipSize[j]; k++)
+				players[whichPlayer].m_gameGrid[0][location.m_row]
+				[location.m_col + k] = static_cast<Ship>(j);
+
 		system("cls");
-		setShipInfo(players->m_ships + j, static_cast<Ship>(j), players->m_ships->m_orientation, location.m_row, location.m_col);
 
 		printGrid(cout, players[whichPlayer].m_gameGrid[0], size);
-		/*printShip(cout, players->m_ships->m_name);*/
 		cout << "Player " << whichPlayer + 1 << " " << shipNames[j];
 		if (safeChoice(" OK?", 'Y', 'N') == 'N')
 		{
+			// Clear the cells of a discarded ship
+			if (input == 'V')
+				for (short k = 0; k < shipSize[j]; k++)
+					players[whichPlayer].m_gameGrid[0][location.m_row + k]
+					[location.m_col] = NOSHIP;
+			else
+				for (short k = 0; k < shipSize[j]; k++)
+					players[whichPlayer].m_gameGrid[0][location.m_row]
+					[location.m_col + k] = NOSHIP;
 			j--;
+
 			continue;
 		}
 
@@ -582,13 +601,13 @@ Cell getCoord(istream& sin, char size)
 	{
 		col = 0;
 		cout << "Row must be a letter from A to " << highChar 
-			<< " and column must be  from 1 to "  
+			<< " and column must be from 1 to "  
 			<< numberOfCols << ": ";
 		while((row = toupper(sin.get())) < 'A' || row  > highChar)
 		{
 			sin.ignore(FILENAME_MAX, '\n');
 			cout << "Row must be a letter from A to " << highChar 
-				<< " and column must be  from 1 to "  
+				<< " and column must be from 1 to "  
 				<< numberOfCols << ": ";
 		}
 		sin >> col;
@@ -639,37 +658,36 @@ bool isValidLocation(const Player& player, short shipNumber, char size)
 {
 	short numberOfRows = (toupper(size) == 'L') ? LARGEROWS : SMALLROWS;
 	short numberOfCols = (toupper(size) == 'L') ? LARGECOLS : SMALLCOLS;
-	
-	// Check if new ship is out of bounds vertically and horizontally
-	if (player.m_ships[shipNumber].m_bowLocation.m_row + shipSize[shipNumber]
-		- 1 >= numberOfRows
-		||
-		player.m_ships[shipNumber].m_bowLocation.m_col + shipSize[shipNumber]
-		- 1 >= numberOfCols)
-		return false;
 
-	// Check for each cell of the new ship
-	for (int k = 0; k < shipSize[shipNumber]; k++)
+	Cell location = player.m_ships[shipNumber].m_bowLocation;
+	Direction orientation = player.m_ships[shipNumber].m_orientation;
+
+	// Check if new ship is out of bounds vertically and horizontally
+	if (orientation == VERTICAL)
 	{
-		// Check for each existing ship
-		for (int i = 1; i < shipNumber; i++)
-		{
-			// Check for each cell occupied by existing ships
-			for (int j = 0; j < shipSize[i]; j++)
-			{
-				// Check if one of the cells of the new ship
-				// conflicts with one of the cells of one of the
-				// existing ships
-				if (player.m_ships[shipNumber].m_bowLocation.m_row + k
-					== player.m_ships[i].m_bowLocation.m_row + j
-					&&
-					player.m_ships[shipNumber].m_bowLocation.m_col + k
-					== player.m_ships[i].m_bowLocation.m_col + j)
-					return false;
-			}
-		}
+		if (location.m_row + shipSize[shipNumber] - 1 >= numberOfRows)
+			return false;
 	}
-	
+	else
+		if (location.m_col + shipSize[shipNumber] - 1 >= numberOfCols)
+			return false;
+
+	// Check if new ship's cells are occupied vertically and horizontally
+	if (orientation == VERTICAL)
+	{
+		for (short k = 0; k < shipSize[shipNumber]; k++)
+			if (player.m_gameGrid[0][location.m_row + k][location.m_col]
+				!= NOSHIP)
+				return false;
+	}
+	else
+	{
+		for (short k = 0; k < shipSize[shipNumber]; k++)
+			if (player.m_gameGrid[0][location.m_row][location.m_col + k]
+				!= NOSHIP)
+				return false;
+	}
+
 	// replace the return value
 	return true;
 }

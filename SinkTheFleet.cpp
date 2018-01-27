@@ -70,7 +70,7 @@ int main(void)
 	bool gameOver = false;
 	bool reshot = false;
 	Cell coord = {0, 0};
-	string message = "would you like to read starting grid from a file?(Y/N): Y\b";
+	string message = "would you like to read starting grid from a file?";
 	string filename;
 	Ship shipHit = NOSHIP;
 	Player game[NUMPLAYERS];	// the two players in an array
@@ -91,13 +91,10 @@ int main(void)
 		// dynamically create the rows of the array
 		allocMem(game, gridSize);
 		
-		// YOUR CODE GOES HERE ...
 		ifstream inFile;
 		for(whichPlayer = 0; whichPlayer < NUMPLAYERS; whichPlayer++)
 		{
-
 			// enter grid files or let users enter ships
-
 			cout << "Player " << whichPlayer + 1 << ", "; // could replace with and outSStream
 			bool gridChoiceSuccess = false; //will be set to true if grid is succesfully opened or user decides to manually set ships
 		    while (!gridChoiceSuccess)
