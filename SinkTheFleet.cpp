@@ -1,8 +1,7 @@
 //----------------------------------------------------------------------------
-// File:	SinkTheFleetleet.cpp
+// File:	    SinkTheFleetleet.cpp
 // 
-// Function:
-//      main()
+// Functions:   main()
 //----------------------------------------------------------------------------
 
 #include <iostream>
@@ -18,27 +17,35 @@
 
 using namespace std;
 extern const char* shipNames[7];
+
 //----------------------------------------------------------------------------
 // Function:	main()
-// Title:		Set ShipInfo
-// Description:
-//				Runs the Sink the Fleet Game
+//
+// Title:		Main
+//
+// Description: Runs the "Sink the Fleet" Game
+//
 // Programmer:	Paul Bladek
-// modified by:
 // 
-// Date:		12/9/2010
-//
-// Version:		0.5
+// Modified by: 
+//				Albert Shymanskyy
+//				Cameron Stevenson
 // 
-// Environment: Hardware: i5 
-//              Software: OS: Windows 10;
-//              Compiles under Microsoft Visual C++ 2017
+// Date:		01/30/2018
 //
-// Input:		
+// Version:		1.0.0
+// 
+// Environment: 
+//				Hardware: Variable
+//				Software: OS: Windows 10;
+//				Compiles under Microsoft Visual C++ 2017
 //
-// Output:		
+// Input:		Grid files
 //
-// Calls:		initializePlayer()
+// Output:		A game
+//
+// Calls:		
+//				initializePlayer()
 //				allocMem()
 //				safeChoice()
 //				loadGridFromFile()
@@ -50,20 +57,21 @@ extern const char* shipNames[7];
 //				deleteMem()
 //				endBox()
 //
-// Called By:	n/a
+// Called By:	None
 //
-// Parameters:	void
+// Parameters:	None
 // 
-// Returns:		int -- EXIT_SUCCESS upon successful completion
+// Returns:		EXIT_SUCCESS of type integer upon successful completion
 //
 // History Log: 
-//				12/9/2010 PB completed v 0.5
+//				12/09/2010 PB completed v0.5.0
+//				01/30/2018 Game completed v1.0.0
 //   
 //----------------------------------------------------------------------------
-int main(void)
+int main()
 {
-	short numRows = SMALLROWS;     // total number of rows in the array
-	short numCols = SMALLCOLS;     // total number of columns in the array
+	short numRows = SMALLROWS; // Total number of rows in the array
+	short numCols = SMALLCOLS; // Total number of columns in the array
 	char again = 'N';
 	char gridSize = 'S';
 	short whichPlayer = 0;
@@ -73,30 +81,28 @@ int main(void)
 	string message = "would you like to read starting grid from a file?";
 	string filename;
 	Ship shipHit = NOSHIP;
-	Player game[NUMPLAYERS];	// the two players in an array
-	// YOUR CODE GOES HERE ...
+	Player game[NUMPLAYERS]; // The two players in an array
 
 	do
 	{
 		system("cls");
 		cout << endl;
 		header(cout);
-		gridSize = safeChoice("Which size grid to you want to use",
-			 'S', 'L');
+		gridSize = safeChoice("Which size grid to you want to use", 'S', 'L');
 		numRows = (toupper(gridSize) == 'L') ? LARGEROWS : SMALLROWS;
 		numCols = (toupper(gridSize) == 'L') ? LARGECOLS : SMALLCOLS;
 		
 		initializePlayer(game);		
 		initializePlayer(game + 1);
-		// dynamically create the rows of the array
-		allocMem(game, gridSize);
+		allocMem(game, gridSize); // Dynamically create the rows of the array
 		
-		ifstream inFile;
 		for(whichPlayer = 0; whichPlayer < NUMPLAYERS; whichPlayer++)
 		{
-			// enter grid files or let users enter ships
-			cout << "Player " << whichPlayer + 1 << ", "; // could replace with and outSStream
-			bool gridChoiceSuccess = false; //will be set to true if grid is succesfully opened or user decides to manually set ships
+			// Enter grid files or let users enter ships
+			cout << "Player " << whichPlayer + 1 << ", ";
+			// Will be set to true if grid is succesfully opened or user
+			// decides to manually set ships
+			bool gridChoiceSuccess = false;
 		    while (!gridChoiceSuccess)
 			{ 
 				switch (safeChoice(message, 'Y', 'N'))
@@ -119,20 +125,24 @@ int main(void)
 				}
 			}
 		}
-		whichPlayer = 0;
-		while (!gameOver);
-		//{
-		//	// YOUR CODE GOES HERE ....
 
-		//	whichPlayer = !whichPlayer;  // switch players
-		//}
-		//// clean up memory ...
+		whichPlayer = 0;
+
+		while (!gameOver);
+		{
+
+
+			whichPlayer = !whichPlayer; // Switch players
+		}
+		
+		// Clean up memory
 
 		again = safeChoice("Would you like to play again?", 'Y', 'N');
-
 	}
 	while(again == 'Y');
+
 	_CrtDumpMemoryLeaks();
 	cin.get();
+
 	return EXIT_SUCCESS;
 } 

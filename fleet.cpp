@@ -1,47 +1,45 @@
 //----------------------------------------------------------------------------
-// File:	fleet.cpp
+// File:		fleet.cpp
 // 
-// Functions: 
-//	  setShipInfo()	
-//	  allocMem() 
-//	  deleteMem()
-//	  printShip() 
-//	  printGrid() 
-//	  initializePlayer() 
-//	  setships()	      
-//	  saveGrid()
-//	  loadGridFromFile()
-//	  getCoord()
-//	  isValidLocation() 
-//	  header() 
-//	  endBox() 
-//----------------------------------------------------------------------------
-#include "fleet.h"
-//----------------------------------------------------------------------------
-// YOU ARE RESPONSIBLE FOR CORRECT HEADERS -- one for each function
-// include the definitions for each of the non-template functions
-//    declared in fleet.h 
+// Functions:	 
+//				setShipInfo()	
+//				allocMem() 
+//				deleteMem()
+//				printShip() 
+//				printGrid() 
+//				initializePlayer() 
+//				setships()	      
+//				saveGrid()
+//				loadGridFromFile()
+//				getCoord()
+//				isValidLocation() 
+//				header() 
+//				endBox() 
 //----------------------------------------------------------------------------
 
-const char* shipNames[SHIP_SIZE_ARRAYSIZE] = 
-	{"No Ship", "Mine Sweeper", "Submarine", "Frigate",
-		"Battleship", "Aircraft Carrier"};
-const int TOTALPIECES = 17; // total pieces in all ships
+#include "fleet.h"
+
+const char* shipNames[SHIP_SIZE_ARRAYSIZE] =
+	{"No Ship", "Mine Sweeper", "Submarine",
+	 "Frigate", "Battleship", "Aircraft Carrier"};
+const int TOTALPIECES = 17; // Total pieces in all ships
 
 //----------------------------------------------------------------------------
 // Function:	setShipInfo()
-// Title:		Set ShipInfo
-// Description:
-//		Sets struct ShipInfo fields
+//
+// Title:		Set ship information
+//
+// Description: Sets fields of "ShipInfo" structure
+//
 // Programmer:	Albert Shymanskyy
 // 
-// Date:	12/20/05
+// Date:		12/20/05
 //
-// Version:	0.1
+// Version:		0.1
 // 
-// Environment: Intel Xeon PC 
-//                Software:   MS Windows 10 for execution; 
-//                Compiles under Microsoft Visual C++.Net 2017
+// Environment: 
+//              Software: Windows 10 
+//              Compiles under Microsoft Visual C++ 2017
 //
 // Calls: None
 //
