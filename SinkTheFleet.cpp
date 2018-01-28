@@ -106,9 +106,14 @@ int main(void)
 						gridChoiceSuccess = true;
 						cout << "Enter file name: ";
 						std::cin >> filename;
+						cin.get();
 						filename.append(".shp");
 						loadGridFromFile(game, whichPlayer, gridSize, filename);
-						cin.get();
+						if (safeChoice("OK?", 'Y', 'N') == 'N')
+						{
+							gridChoiceSuccess = false;
+							system("cls");
+						}
 						break;
 					}
 					case 'N':

@@ -559,8 +559,17 @@ bool loadGridFromFile(Player players[], short whichPlayer, char size,
 		return false;
 	}	
 	// YOUR CODE GOES HERE ...
-	
 
+	for (short i = 0; i < numberOfRows; ++i)
+	{
+		for (short j = 0; j < numberOfCols; ++j)
+		{
+			players[whichPlayer].m_gameGrid[0][i][j] = static_cast<Ship>(loadShip(ifs.get()));
+		}
+	}
+	system("cls");
+	printGrid(cout, players[whichPlayer].m_gameGrid[0], size);
+	
 	return true;
 }
 
@@ -787,5 +796,23 @@ void endBox(short player)
 	boxLine(cout, msg.str() , BOXWIDTH, 'C');
 	boxLine(cout, empty, BOXWIDTH);
 	boxBottom(cout, BOXWIDTH);
+}
+char loadShip(char characterRead)
+{
+	switch (characterRead)
+	{
+	case ' ': characterRead = 0;
+		break;
+	case 'M': characterRead = 1;
+		break;
+	case 'S': characterRead = 2;
+		break;
+	case 'F': characterRead = 3;
+		break;
+	case 'B': characterRead = 4;
+		break;
+	case 'C': characterRead = 5;
+	}
+	return characterRead;
 }
 
