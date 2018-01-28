@@ -98,7 +98,7 @@ int main(void)
 			cout << "Player " << whichPlayer + 1 << ", "; // could replace with and outSStream
 			bool gridChoiceSuccess = false; //will be set to true if grid is succesfully opened or user decides to manually set ships
 		    while (!gridChoiceSuccess)
-			{ 
+			{
 				switch (safeChoice(message, 'Y', 'N'))
 				{
 					case 'Y':
@@ -108,6 +108,7 @@ int main(void)
 						std::cin >> filename;
 						filename.append(".shp");
 						loadGridFromFile(game, whichPlayer, gridSize, filename);
+						cin.get();
 						break;
 					}
 					case 'N':

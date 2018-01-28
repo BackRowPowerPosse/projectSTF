@@ -288,7 +288,7 @@ void printGrid(ostream& sout, Ship** grid, char size)
 	char ch = 'A';
 	for (short i = 0; i < numberOfRows; ++i)
 	{
-		cout << ch++;
+		sout << ch++;
 		for (short j = 0; j < numberOfCols; ++j)
 		{
 			printShip(sout, grid[i][j]);
@@ -430,6 +430,7 @@ void setships(Player players[], char size, short whichPlayer)
 				for (short k = 0; k < shipSize[j]; k++)
 					players[whichPlayer].m_gameGrid[0][location.m_row + k]
 					[location.m_col] = NOSHIP;
+			
 			else
 				for (short k = 0; k < shipSize[j]; k++)
 					players[whichPlayer].m_gameGrid[0][location.m_row]
@@ -438,6 +439,7 @@ void setships(Player players[], char size, short whichPlayer)
 
 			continue;
 		}
+
 
 	} // end for j
 	save = safeChoice("\nSave starting grid?", 'Y', 'N');
@@ -480,8 +482,14 @@ void saveGrid(Player players[], short whichPlayer, char size)
 {
 	short numberOfRows = (toupper(size) == 'L') ? LARGEROWS : SMALLROWS;
 	short numberOfCols = (toupper(size) == 'L') ? LARGECOLS : SMALLCOLS;	
-	// YOUR CODE GOES HERE ...
 	
+	ofstream saveFile;
+	string saveFilename;
+	cout << "Enter name of file to save to (.shp will be added):";
+	cin >> saveFilename;
+	saveFile.open(saveFilename.append(".shp"));
+	printGrid(saveFile, players[whichPlayer].m_gameGrid[0], size);
+	saveFile.close();
 }
 
 //----------------------------------------------------------------------------
