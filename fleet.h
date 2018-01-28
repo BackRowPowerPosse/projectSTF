@@ -148,6 +148,7 @@ bool isValidLocation(const Player& player, short shipNumber, char size);
 void header(ostream& sout);
 // prints closinging graphic
 void endBox(short player);		
-// your headers go here ...
-char loadShip(char characterRead);
+
+// Returns a ship from character in the grid file
+Ship loadShip(char characterRead);
 #endif
