@@ -150,4 +150,6 @@ void header(ostream& sout);
 void endBox(short player);		
 // your headers go here ...
 Ship loadShip(char characterRead);
+
+void streamGrab(ifstream& ifs, int grabs);
 #endif

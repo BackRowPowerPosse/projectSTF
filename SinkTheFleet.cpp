@@ -114,7 +114,8 @@ int main()
 						std::cin >> filename;
 						cin.get();
 						filename.append(".shp");
-						if (!loadGridFromFile(game, whichPlayer, gridSize, filename))
+						if (!loadGridFromFile(game, whichPlayer, gridSize,
+																filename))
 						{
 							system("cls");
 							--whichPlayer;

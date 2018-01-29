@@ -570,9 +570,7 @@ bool loadGridFromFile(Player players[], short whichPlayer, char size,
 
 	for (short j = 0; j < numberOfCols; ++j) //read in the upper row.
 	{
-		ifs.get();
-		ifs.get();
-		ifs.get();
+		streamGrab(ifs, 3); // 3 .get()'s
 	}
 	ifs.get(); //read in newline character
 
@@ -581,21 +579,15 @@ bool loadGridFromFile(Player players[], short whichPlayer, char size,
 	{
 		for (short j = 0; j < numberOfCols; ++j)
 		{
-			ifs.get(); //read in row-letter/vertical bar
-			ifs.get(); //read in space
-			players[whichPlayer].m_gameGrid[0][i][j] = loadShip(ifs.get());
-			
+			streamGrab(ifs, 2); //read in row-letter/vertical bar + read in space
+			players[whichPlayer].m_gameGrid[0][i][j] = loadShip(ifs.get());	
 		}
-		ifs.get(); //read in the vertical bar after each row
-		ifs.get(); //read in the newline character after each row
+		streamGrab(ifs, 2); //read in the vertical bar + newline after each row
 		for (short j = 0; j < numberOfCols; ++j) //read in HORZ/CR rows
 		{
-			ifs.get();
-			ifs.get();
-			ifs.get();
+			streamGrab(ifs, 3);
 		}
-		ifs.get(); //read in the vertical bar
-		ifs.get(); // read in the newlines character
+		streamGrab(ifs, 2); //read in the vertical bar + newline characters
 	}
 	system("cls");
 	printGrid(cout, players[whichPlayer].m_gameGrid[0], size);
@@ -876,3 +868,10 @@ Ship loadShip(char characterRead)
 	return static_cast<Ship>(characterRead);
 }
 
+void streamGrab(ifstream& ifs, int grabs)
+{
+	for (int i = 0; i < grabs; i++)
+	{
+		ifs.get();
+	}
+}
