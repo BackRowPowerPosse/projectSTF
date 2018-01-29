@@ -113,7 +113,8 @@ int main()
 						cout << "Enter file name: ";
 						std::cin >> filename;
 						filename.append(".shp");
-						loadGridFromFile(game, whichPlayer, gridSize, filename);
+						loadGridFromFile(game, whichPlayer, gridSize,
+							filename);
 						break;
 					}
 					case 'N':
@@ -126,17 +127,76 @@ int main()
 			}
 		}
 
+		// Pre-game header
+		system("cls");
+		cout << endl;
+		header(cout);
+		cout << "Press <Enter> to start the battle..." << endl;
+		cin.get();
 		whichPlayer = 0;
-
-		while (!gameOver);
+		
+		// Gameplay
+		while (!gameOver)
 		{
+			bool shipSunk = false;
+			Ship whichShip;
 
+			system("cls");
+			printGrid(cout, game[whichPlayer].m_gameGrid[1], gridSize);
+			cout << "Player " << whichPlayer + 1 << ", enter coordinates"
+				"for firing:" << endl;
+			coord = getCoord(cin, gridSize);
 
-			whichPlayer = !whichPlayer; // Switch players
+			// Check if player shot at this cell
+			while (!game[whichPlayer].m_gameGrid[1][coord.m_row][coord.m_col])
+			{
+				cout << "You have already shot at " << static_cast<char>
+					(coord.m_row) + 'A' << coord.m_col + 1 << endl;
+				cout << "Player " << whichPlayer + 1 << ", enter coordinates"
+					<< "for firing:" << endl;
+				coord = getCoord(cin, gridSize);
+			} 
+
+			whichShip = game[whichPlayer].m_gameGrid[0][coord.m_row][coord.m_col];
+
+			// Check if the coordinates contain a ship
+			if (whichShip)
+			{
+				// Decrements the amount of pieces left
+				game[!whichPlayer].m_ships[whichShip].m_piecesLeft--;
+				game[!whichPlayer].m_piecesLeft--;
+
+				// Check if there are no more pieces of a ship left
+				if (!game[!whichPlayer].m_ships[whichShip].m_piecesLeft)
+					shipSunk = true;
+
+				shipHit = game[whichPlayer].m_gameGrid[1][coord.m_row]
+					[coord.m_col] = HIT;
+				reshot = true;
+			}
+			else
+				shipHit = game[whichPlayer].m_gameGrid[1][coord.m_row]
+				[coord.m_col] = MISSED;
+
+			system("cls");
+			printGrid(cout, game[whichPlayer].m_gameGrid[1], gridSize);
+			cout << shipHit << endl;
+			// Print which ship sank
+			if (shipSunk) cout << shipNames[whichShip] << "SUNK" << endl;
+			cout << "Press <Enter> to continue...";
+			cin.get();
+
+			// Check if other player lost
+			if (!game[!whichPlayer].m_piecesLeft)
+				gameOver = true;
+			else
+				// Switch players
+				if (!reshot) whichPlayer = !whichPlayer;
 		}
 		
+		endBox(whichPlayer);
 		// Clean up memory
-
+		deleteMem(game, gridSize);
 		again = safeChoice("Would you like to play again?", 'Y', 'N');
 	}
 	while(again == 'Y');
