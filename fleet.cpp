@@ -500,6 +500,7 @@ void saveGrid(Player players[], short whichPlayer, char size)
 	system("cls");
 	cout << "Enter name of file to save to (.shp will be added):";
 	cin >> saveFilename;
+	cin.get();
 	saveFile.open(saveFilename.append(".shp"));
 	printGrid(saveFile, players[whichPlayer].m_gameGrid[0], size);
 	saveFile.close();
