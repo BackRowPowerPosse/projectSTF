@@ -148,12 +148,13 @@ int main()
 
 			system("cls");
 			printGrid(cout, game[whichPlayer].m_gameGrid[1], gridSize);
-			cout << "Player " << whichPlayer + 1 << ", enter coordinates"
+			cout << "Player " << whichPlayer + 1 << ", enter coordinates "
 				"for firing:" << endl;
 			coord = getCoord(cin, gridSize);
 
 			// Check if player shot at this cell
-			while (!game[whichPlayer].m_gameGrid[1][coord.m_row][coord.m_col])
+			while (game[whichPlayer].m_gameGrid[1][coord.m_row][coord.m_col]
+				!= NOSHIP)
 			{
 				cout << "You have already shot at " << static_cast<char>
 					(coord.m_row) + 'A' << coord.m_col + 1 << endl;
@@ -162,17 +163,18 @@ int main()
 				coord = getCoord(cin, gridSize);
 			} 
 
-			whichShip = game[whichPlayer].m_gameGrid[0][coord.m_row][coord.m_col];
+			whichShip = game[whichPlayer].m_gameGrid[0][coord.m_row]
+				[coord.m_col];
 
 			// Check if the coordinates contain a ship
-			if (whichShip)
+			if (whichShip != NOSHIP)
 			{
 				// Decrements the amount of pieces left
 				game[!whichPlayer].m_ships[whichShip].m_piecesLeft--;
 				game[!whichPlayer].m_piecesLeft--;
 
 				// Check if there are no more pieces of a ship left
-				if (!game[!whichPlayer].m_ships[whichShip].m_piecesLeft)
+				if (game[!whichPlayer].m_ships[whichShip].m_piecesLeft == 0)
 					shipSunk = true;
 
 				shipHit = game[whichPlayer].m_gameGrid[1][coord.m_row]
