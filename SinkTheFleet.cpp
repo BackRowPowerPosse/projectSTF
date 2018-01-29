@@ -114,13 +114,18 @@ int main()
 						std::cin >> filename;
 						cin.get();
 						filename.append(".shp");
-						loadGridFromFile(game, whichPlayer, gridSize,
-							filename);
+						if (!loadGridFromFile(game, whichPlayer, gridSize, filename))
+						{
+							system("cls");
+							--whichPlayer;
+							continue;
+						}
 						if (safeChoice("OK?", 'Y', 'N') == 'N')
 						{
 							gridChoiceSuccess = false;
 							system("cls");
 						}
+						system("cls");
 						break;
 					}
 					case 'N':
@@ -152,7 +157,6 @@ int main()
 			cout << "Player " << whichPlayer + 1 << ", enter coordinates "
 				"for firing:" << endl;
 			coord = getCoord(cin, gridSize);
-
 			// Check if player shot at this cell
 			while (game[whichPlayer].m_gameGrid[1][coord.m_row][coord.m_col]
 				!= NOSHIP)
