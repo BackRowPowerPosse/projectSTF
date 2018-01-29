@@ -106,20 +106,28 @@ void allocMem(Player players[], char size)
 
 	try
 	{
-		for (int whichGrid = 0; whichGrid < NUMPLAYERS; whichGrid++) // loop through both grid types -- current player and opponent.
+		// loop through both grid types -- current player and opponent.
+		for (int whichGrid = 0; whichGrid < NUMPLAYERS; whichGrid++)
 		{
-			for (short i = 0; i < NUMPLAYERS; ++i) // loop through both players -- player 1 and player 2 (remember, each player has 2 grids. His and opponents.
+			// loop through both players -- player 1 and player 2
+			for (short i = 0; i < NUMPLAYERS; ++i)
 			{
-				players[i].m_gameGrid[whichGrid] = nullptr; // initialize to null pointer -- simplifies debugging if exception thrown by line below --cleans this spot
-				players[i].m_gameGrid[whichGrid] = new Ship * [numberOfRows]; // allocate memory for array of pointers to ships -- each item constitutes a row pointer.
+				// initialize to null pointer -- simplifies debugging if
+				// exception thrown by line below --cleans this spot
+				players[i].m_gameGrid[whichGrid] = nullptr;
+				// allocate memory for array of pointers to ships
+				// -- each item constitutes a row pointer.
+				players[i].m_gameGrid[whichGrid] = new Ship * [numberOfRows];
 				for (short j = 0; j < numberOfRows; ++j)
 				{
 					players[i].m_gameGrid[whichGrid][j] = nullptr;
-					players[i].m_gameGrid[whichGrid][j] = new Ship [numberOfCols];
+					players[i].m_gameGrid[whichGrid][j] = new Ship
+						[numberOfCols];
 
 					for(short k = 0; k < numberOfCols; ++k)
 					{
-						players[i].m_gameGrid[whichGrid][j][k] = NOSHIP; // initialize all items in row to NOSHIP
+						// initialize all items in row to NOSHIP
+						players[i].m_gameGrid[whichGrid][j][k] = NOSHIP; 
 					} // end for k
 				} // end for j
 
@@ -169,13 +177,16 @@ void deleteMem(Player players[], char size)
 {
 	short numberOfRows = (toupper(size) == 'L') ? LARGEROWS : SMALLROWS;
 
-	for (int whichGrid = 0; whichGrid < NUMPLAYERS; whichGrid++) // loop through both types of grids
+	// loop through both types of grids
+	for (int whichGrid = 0; whichGrid < NUMPLAYERS; whichGrid++)
 	{
-		for (short i = 0; i < NUMPLAYERS; i++) // loop through both players
+		// loop through both players
+		for (short i = 0; i < NUMPLAYERS; i++)
 		{
 			for (short j = 0; j < numberOfRows; j++)
 			{
-				// if pointer is NOT null --> delete the array of ships this row pointer points to.
+				// if pointer is NOT null --> delete the array of ships this
+				// row pointer points to.
 				if (players[i].m_gameGrid[whichGrid][j] != nullptr)
 					delete[] players[i].m_gameGrid[whichGrid][j];
 			}
@@ -556,7 +567,6 @@ bool loadGridFromFile(Player players[], short whichPlayer, char size,
 		cin.ignore(FILENAME_MAX, '\n');
 		return false;
 	}	
-	// YOUR CODE GOES HERE ...
 
 	for (short j = 0; j < numberOfCols; ++j) //read in the upper row.
 	{
@@ -565,7 +575,9 @@ bool loadGridFromFile(Player players[], short whichPlayer, char size,
 		ifs.get();
 	}
 	ifs.get(); //read in newline character
-	for (short i = 0; i < numberOfRows; ++i)// for each row after read skip one, grab the character, skip the bar
+
+	// for each row after read skip one, grab the character, skip the bar
+	for (short i = 0; i < numberOfRows; ++i)
 	{
 		for (short j = 0; j < numberOfCols; ++j)
 		{

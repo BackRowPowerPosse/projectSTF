@@ -158,42 +158,50 @@ int main()
 				"for firing:" << endl;
 			coord = getCoord(cin, gridSize);
 			// Check if player shot at this cell
-			while (game[whichPlayer].m_gameGrid[1][coord.m_row][coord.m_col] == 'H')
+			while (game[whichPlayer].m_gameGrid[1][coord.m_row][coord.m_col]
+				!= NOSHIP)
 			{
-				cout << "You have already shot at " << static_cast<char>(
-					(coord.m_row) + 'A') << coord.m_col + 1 << endl;
-				cout << "Player " << whichPlayer + 1 << ", enter coordinates "
+				cout << "You have already shot at " << static_cast<char>
+					(coord.m_row + 'A') << coord.m_col + 1 << endl;
+				cout << "Player " << whichPlayer + 1 << ", enter coordinates"
 					<< "for firing:" << endl;
 				coord = getCoord(cin, gridSize);
 			} 
 
-			whichShip = game[whichPlayer].m_gameGrid[0][coord.m_row][coord.m_col];
+			whichShip = game[whichPlayer].m_gameGrid[0][coord.m_row]
+				[coord.m_col];
 
 			// Check if the coordinates contain a ship
-			if (whichShip)
+			if (whichShip != NOSHIP)
 			{
 				// Decrements the amount of pieces left
 				game[!whichPlayer].m_ships[whichShip].m_piecesLeft--;
 				game[!whichPlayer].m_piecesLeft--;
 
 				// Check if there are no more pieces of a ship left
-				if (!game[!whichPlayer].m_ships[whichShip].m_piecesLeft)
+				if (game[!whichPlayer].m_ships[whichShip].m_piecesLeft == 0)
 					shipSunk = true;
 
 				shipHit = game[whichPlayer].m_gameGrid[1][coord.m_row]
 					[coord.m_col] = HIT;
 				/*cout << '\a';*/
 				reshot = true;
+
+				// Alert the player of a hit
+				cout << '\a';
 			}
 			else
+			{
 				shipHit = game[whichPlayer].m_gameGrid[1][coord.m_row]
-				[coord.m_col] = MISSED;
+					[coord.m_col] = MISSED;
+				if (reshot) reshot = false;
+			}
 
 			system("cls");
 			printGrid(cout, game[whichPlayer].m_gameGrid[1], gridSize);
-			cout << shipHit << endl;
+			cout << ((shipHit == 6) ? "HIT" : "MISSED") << endl;
 			// Print which ship sank
-			if (shipSunk) cout << shipNames[whichShip] << "SUNK" << endl;
+			if (shipSunk) cout << shipNames[whichShip] << " SUNK" << endl;
 			cout << "Press <Enter> to continue...";
 			cin.get();
 
@@ -201,7 +209,7 @@ int main()
 			if (!game[!whichPlayer].m_piecesLeft)
 				gameOver = true;
 			else
-				// Switch players
+				// Switch players if cannot reshoot
 				if (!reshot) whichPlayer = !whichPlayer;
 		}
 		
@@ -213,7 +221,6 @@ int main()
 	while(again == 'Y');
 
 	_CrtDumpMemoryLeaks();
-	cin.get();
 
 	return EXIT_SUCCESS;
 } 
