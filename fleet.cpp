@@ -286,7 +286,7 @@ void printGrid(ostream& sout, Ship** grid, char size)
 	char ch = 'A';
 	for (short i = 0; i < numberOfRows; ++i)
 	{
-		cout << ch++;
+		sout << ch++;
 		for (short j = 0; j < numberOfCols; ++j)
 		{
 			printShip(sout, grid[i][j]);
@@ -428,6 +428,7 @@ void setships(Player players[], char size, short whichPlayer)
 				for (short k = 0; k < shipSize[j]; k++)
 					players[whichPlayer].m_gameGrid[0][location.m_row + k]
 					[location.m_col] = NOSHIP;
+			
 			else
 				for (short k = 0; k < shipSize[j]; k++)
 					players[whichPlayer].m_gameGrid[0][location.m_row]
@@ -436,6 +437,7 @@ void setships(Player players[], char size, short whichPlayer)
 
 			continue;
 		}
+
 
 	} // end for j
 	save = safeChoice("\nSave starting grid?", 'Y', 'N');
@@ -478,8 +480,14 @@ void saveGrid(Player players[], short whichPlayer, char size)
 {
 	short numberOfRows = (toupper(size) == 'L') ? LARGEROWS : SMALLROWS;
 	short numberOfCols = (toupper(size) == 'L') ? LARGECOLS : SMALLCOLS;	
-	// YOUR CODE GOES HERE ...
 	
+	ofstream saveFile;
+	string saveFilename;
+	cout << "Enter name of file to save to (.shp will be added):";
+	cin >> saveFilename;
+	saveFile.open(saveFilename.append(".shp"));
+	printGrid(saveFile, players[whichPlayer].m_gameGrid[0], size);
+	saveFile.close();
 }
 
 //----------------------------------------------------------------------------
@@ -549,8 +557,37 @@ bool loadGridFromFile(Player players[], short whichPlayer, char size,
 		return false;
 	}	
 	// YOUR CODE GOES HERE ...
-	
 
+	for (short j = 0; j < numberOfCols; ++j) //read in the upper row.
+	{
+		ifs.get();
+		ifs.get();
+		ifs.get();
+	}
+	ifs.get(); //read in newline character
+	for (short i = 0; i < numberOfRows; ++i)// for each row after read skip one, grab the character, skip the bar
+	{
+		for (short j = 0; j < numberOfCols; ++j)
+		{
+			ifs.get(); //read in row-letter/vertical bar
+			ifs.get(); //read in space
+			players[whichPlayer].m_gameGrid[0][i][j] = loadShip(ifs.get());
+			
+		}
+		ifs.get(); //read in the vertical bar after each row
+		ifs.get(); //read in the newline character after each row
+		for (short j = 0; j < numberOfCols; ++j) //read in HORZ/CR rows
+		{
+			ifs.get();
+			ifs.get();
+			ifs.get();
+		}
+		ifs.get(); //read in the vertical bar
+		ifs.get(); // read in the newlines character
+	}
+	system("cls");
+	printGrid(cout, players[whichPlayer].m_gameGrid[0], size);
+	
 	return true;
 }
 
@@ -777,5 +814,53 @@ void endBox(short player)
 	boxLine(cout, msg.str() , BOXWIDTH, 'C');
 	boxLine(cout, empty, BOXWIDTH);
 	boxBottom(cout, BOXWIDTH);
+}
+//----------------------------------------------------------------------------
+// Function:	loadShip()
+// Title:	Load Ship 
+// Description:
+//		reverse of printShip() takes in a character and translates it to Ship
+// Programmer:	Paul Bladek
+// 
+// Date:	9/12/06
+//
+// Version:	1.0
+// 
+// Environment: Hardware: i3 
+//              Software: OS: Windows 10; 
+//              Compiles under Microsoft Visual C++ 2017
+//
+// Output:		What type of ship according to the Ship enum
+//
+// Calls:
+//
+// Called By:	loadGridFromFile
+//
+// Parameters:	char characterRead; the array element in question
+// 
+// Returns:	Ship 
+//
+// History Log: 
+//		9/12/06 PB comleted v 1.0
+//     
+//----------------------------------------------------------------------------
+Ship loadShip(char characterRead)
+{
+	switch (characterRead)
+	{
+	case ' ': characterRead = NOSHIP;
+		break;
+	case 'M': characterRead = MINESWEEPER;
+		break;
+	case 'S': characterRead = SUB;
+		break;
+	case 'F': characterRead = FRIGATE;
+		break;
+	case 'B': characterRead = BATTLESHIP;
+		break;
+	case 'C': characterRead = CARRIER;
+		break;
+	}
+	return static_cast<Ship>(characterRead);
 }
 

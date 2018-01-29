@@ -104,7 +104,7 @@ int main()
 			// decides to manually set ships
 			bool gridChoiceSuccess = false;
 		    while (!gridChoiceSuccess)
-			{ 
+			{
 				switch (safeChoice(message, 'Y', 'N'))
 				{
 					case 'Y':
@@ -112,9 +112,14 @@ int main()
 						gridChoiceSuccess = true;
 						cout << "Enter file name: ";
 						std::cin >> filename;
+						cin.get();
 						filename.append(".shp");
-						loadGridFromFile(game, whichPlayer, gridSize,
-							filename);
+						loadGridFromFile(game, whichPlayer, gridSize, filename);
+						if (safeChoice("OK?", 'Y', 'N') == 'N')
+						{
+							gridChoiceSuccess = false;
+							system("cls");
+						}
 						break;
 					}
 					case 'N':
