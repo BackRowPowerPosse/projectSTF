@@ -396,6 +396,7 @@ void setships(Player players[], char size, short whichPlayer)
 		system("cls");
 		printGrid(cout, players[whichPlayer].m_gameGrid[0], size);
 		outSStream.str("");
+		outSStream.clear();
 		outSStream << "Player " << whichPlayer + 1 << " Enter "
 			<< shipNames[j] << " orientation";
 		input = safeChoice(outSStream.str(), 'V', 'H');
@@ -431,8 +432,10 @@ void setships(Player players[], char size, short whichPlayer)
 		system("cls");
 
 		printGrid(cout, players[whichPlayer].m_gameGrid[0], size);
-		cout << "Player " << whichPlayer + 1 << " " << shipNames[j];
-		if (safeChoice(" OK?", 'Y', 'N') == 'N')
+		outSStream.str("");
+		outSStream.clear();
+		outSStream << "Player " << whichPlayer + 1 << " " << shipNames[j] << " OK?";
+		if (safeChoice(outSStream.str(), 'Y', 'N') == 'N')
 		{
 			// Clear the cells of a discarded ship
 			if (input == 'V')
