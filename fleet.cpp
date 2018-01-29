@@ -817,22 +817,50 @@ void endBox(short player)
 	boxLine(cout, empty, BOXWIDTH);
 	boxBottom(cout, BOXWIDTH);
 }
-
+//----------------------------------------------------------------------------
+// Function:	loadShip()
+// Title:	Load Ship 
+// Description:
+//		reverse of printShip() takes in a character and translates it to Ship
+// Programmer:	Paul Bladek
+// 
+// Date:	9/12/06
+//
+// Version:	1.0
+// 
+// Environment: Hardware: i3 
+//              Software: OS: Windows 10; 
+//              Compiles under Microsoft Visual C++ 2017
+//
+// Output:		What type of ship according to the Ship enum
+//
+// Calls:
+//
+// Called By:	loadGridFromFile
+//
+// Parameters:	char characterRead; the array element in question
+// 
+// Returns:	Ship 
+//
+// History Log: 
+//		9/12/06 PB comleted v 1.0
+//     
+//----------------------------------------------------------------------------
 Ship loadShip(char characterRead)
 {
 	switch (characterRead)
 	{
-	case ' ': characterRead = 0;
+	case ' ': characterRead = NOSHIP;
 		break;
-	case 'M': characterRead = 1;
+	case 'M': characterRead = MINESWEEPER;
 		break;
-	case 'S': characterRead = 2;
+	case 'S': characterRead = SUB;
 		break;
-	case 'F': characterRead = 3;
+	case 'F': characterRead = FRIGATE;
 		break;
-	case 'B': characterRead = 4;
+	case 'B': characterRead = BATTLESHIP;
 		break;
-	case 'C': characterRead = 5;
+	case 'C': characterRead = CARRIER;
 		break;
 	}
 	return static_cast<Ship>(characterRead);
