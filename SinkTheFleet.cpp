@@ -114,12 +114,18 @@ int main()
 						std::cin >> filename;
 						cin.get();
 						filename.append(".shp");
-						loadGridFromFile(game, whichPlayer, gridSize, filename);
+						if (!loadGridFromFile(game, whichPlayer, gridSize, filename))
+						{
+							system("cls");
+							--whichPlayer;
+							continue;
+						}
 						if (safeChoice("OK?", 'Y', 'N') == 'N')
 						{
 							gridChoiceSuccess = false;
 							system("cls");
 						}
+						system("cls");
 						break;
 					}
 					case 'N':
@@ -148,16 +154,15 @@ int main()
 
 			system("cls");
 			printGrid(cout, game[whichPlayer].m_gameGrid[1], gridSize);
-			cout << "Player " << whichPlayer + 1 << ", enter coordinates"
+			cout << "Player " << whichPlayer + 1 << ", enter coordinates "
 				"for firing:" << endl;
 			coord = getCoord(cin, gridSize);
-
 			// Check if player shot at this cell
-			while (!game[whichPlayer].m_gameGrid[1][coord.m_row][coord.m_col])
+			while (game[whichPlayer].m_gameGrid[1][coord.m_row][coord.m_col] == 'H')
 			{
-				cout << "You have already shot at " << static_cast<char>
-					(coord.m_row) + 'A' << coord.m_col + 1 << endl;
-				cout << "Player " << whichPlayer + 1 << ", enter coordinates"
+				cout << "You have already shot at " << static_cast<char>(
+					(coord.m_row) + 'A') << coord.m_col + 1 << endl;
+				cout << "Player " << whichPlayer + 1 << ", enter coordinates "
 					<< "for firing:" << endl;
 				coord = getCoord(cin, gridSize);
 			} 
@@ -177,6 +182,7 @@ int main()
 
 				shipHit = game[whichPlayer].m_gameGrid[1][coord.m_row]
 					[coord.m_col] = HIT;
+				/*cout << '\a';*/
 				reshot = true;
 			}
 			else
