@@ -497,6 +497,7 @@ void saveGrid(Player players[], short whichPlayer, char size)
 	
 	ofstream saveFile;
 	string saveFilename;
+	system("cls");
 	cout << "Enter name of file to save to (.shp will be added):";
 	cin >> saveFilename;
 	saveFile.open(saveFilename.append(".shp"));

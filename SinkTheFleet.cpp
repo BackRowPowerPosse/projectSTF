@@ -79,11 +79,11 @@ int main()
 	bool gameOver = false;
 	bool reshot = false;
 	Cell coord = {0, 0};
-	string message = "would you like to read starting grid from a file?";
+	string message = ", would you like to read starting grid from a file?";
 	string filename;
 	Ship shipHit = NOSHIP;
 	Player game[NUMPLAYERS]; // The two players in an array
-
+	ostringstream outSStream;
 	do
 	{
 		system("cls");
@@ -99,10 +99,11 @@ int main()
 		
 		for(whichPlayer = 0; whichPlayer < NUMPLAYERS; whichPlayer++)
 		{
+			outSStream.str("");
+			outSStream.clear();
 			// Enter grid files or let users enter ships
-			cout << "Player " << whichPlayer + 1 << ", ";
-
-			if (safeChoice(message, 'Y', 'N') == 'Y')
+			outSStream << "Player " << whichPlayer + 1 << message;
+			if (safeChoice(outSStream.str(), 'Y', 'N') == 'Y')
 			{
 				cout << "Enter file name: ";
 				std::cin >> filename;
