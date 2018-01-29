@@ -53,7 +53,7 @@ extern const char* shipNames[7];
 // Called By:	n/a
 //
 // Parameters:	void
-// 
+//  
 // Returns:		int -- EXIT_SUCCESS upon successful completion
 //
 // History Log: 
