@@ -149,5 +149,5 @@ void header(ostream& sout);
 // prints closinging graphic
 void endBox(short player);		
 // your headers go here ...
-char loadShip(char characterRead);
+Ship loadShip(char characterRead);
 #endif

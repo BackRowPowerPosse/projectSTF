@@ -560,12 +560,32 @@ bool loadGridFromFile(Player players[], short whichPlayer, char size,
 	}	
 	// YOUR CODE GOES HERE ...
 
-	for (short i = 0; i < numberOfRows; ++i)
+	for (short j = 0; j < numberOfCols; ++j) //read in the upper row.
+	{
+		ifs.get();
+		ifs.get();
+		ifs.get();
+	}
+	ifs.get(); //read in newline character
+	for (short i = 0; i < numberOfRows; ++i)// for each row after read skip one, grab the character, skip the bar
 	{
 		for (short j = 0; j < numberOfCols; ++j)
 		{
-			players[whichPlayer].m_gameGrid[0][i][j] = static_cast<Ship>(loadShip(ifs.get()));
+			ifs.get(); //read in row-letter/vertical bar
+			ifs.get(); //read in space
+			players[whichPlayer].m_gameGrid[0][i][j] = loadShip(ifs.get());
+			
 		}
+		ifs.get(); //read in the vertical bar after each row
+		ifs.get(); //read in the newline character after each row
+		for (short j = 0; j < numberOfCols; ++j) //read in HORZ/CR rows
+		{
+			ifs.get();
+			ifs.get();
+			ifs.get();
+		}
+		ifs.get(); //read in the vertical bar
+		ifs.get(); // read in the newlines character
 	}
 	system("cls");
 	printGrid(cout, players[whichPlayer].m_gameGrid[0], size);
@@ -797,7 +817,8 @@ void endBox(short player)
 	boxLine(cout, empty, BOXWIDTH);
 	boxBottom(cout, BOXWIDTH);
 }
-char loadShip(char characterRead)
+
+Ship loadShip(char characterRead)
 {
 	switch (characterRead)
 	{
@@ -812,7 +833,8 @@ char loadShip(char characterRead)
 	case 'B': characterRead = 4;
 		break;
 	case 'C': characterRead = 5;
+		break;
 	}
-	return characterRead;
+	return static_cast<Ship>(characterRead);
 }
 
