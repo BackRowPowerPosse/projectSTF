@@ -396,6 +396,7 @@ void setships(Player players[], char size, short whichPlayer)
 		system("cls");
 		printGrid(cout, players[whichPlayer].m_gameGrid[0], size);
 		outSStream.str("");
+		outSStream.clear();
 		outSStream << "Player " << whichPlayer + 1 << " Enter "
 			<< shipNames[j] << " orientation";
 		input = safeChoice(outSStream.str(), 'V', 'H');
@@ -431,8 +432,10 @@ void setships(Player players[], char size, short whichPlayer)
 		system("cls");
 
 		printGrid(cout, players[whichPlayer].m_gameGrid[0], size);
-		cout << "Player " << whichPlayer + 1 << " " << shipNames[j];
-		if (safeChoice(" OK?", 'Y', 'N') == 'N')
+		outSStream.str("");
+		outSStream.clear();
+		outSStream << "Player " << whichPlayer + 1 << " " << shipNames[j] << " OK?";
+		if (safeChoice(outSStream.str(), 'Y', 'N') == 'N')
 		{
 			// Clear the cells of a discarded ship
 			if (input == 'V')
@@ -494,8 +497,10 @@ void saveGrid(Player players[], short whichPlayer, char size)
 	
 	ofstream saveFile;
 	string saveFilename;
+	system("cls");
 	cout << "Enter name of file to save to (.shp will be added):";
 	cin >> saveFilename;
+	cin.get();
 	saveFile.open(saveFilename.append(".shp"));
 	printGrid(saveFile, players[whichPlayer].m_gameGrid[0], size);
 	saveFile.close();
@@ -570,9 +575,7 @@ bool loadGridFromFile(Player players[], short whichPlayer, char size,
 
 	for (short j = 0; j < numberOfCols; ++j) //read in the upper row.
 	{
-		ifs.get();
-		ifs.get();
-		ifs.get();
+		streamGrab(ifs, 3); // 3 .get()'s
 	}
 	ifs.get(); //read in newline character
 
@@ -581,21 +584,15 @@ bool loadGridFromFile(Player players[], short whichPlayer, char size,
 	{
 		for (short j = 0; j < numberOfCols; ++j)
 		{
-			ifs.get(); //read in row-letter/vertical bar
-			ifs.get(); //read in space
-			players[whichPlayer].m_gameGrid[0][i][j] = loadShip(ifs.get());
-			
+			streamGrab(ifs, 2); //read in row-letter/vertical bar + read in space
+			players[whichPlayer].m_gameGrid[0][i][j] = loadShip(ifs.get());	
 		}
-		ifs.get(); //read in the vertical bar after each row
-		ifs.get(); //read in the newline character after each row
+		streamGrab(ifs, 2); //read in the vertical bar + newline after each row
 		for (short j = 0; j < numberOfCols; ++j) //read in HORZ/CR rows
 		{
-			ifs.get();
-			ifs.get();
-			ifs.get();
+			streamGrab(ifs, 3);
 		}
-		ifs.get(); //read in the vertical bar
-		ifs.get(); // read in the newlines character
+		streamGrab(ifs, 2); //read in the vertical bar + newline characters
 	}
 	system("cls");
 	printGrid(cout, players[whichPlayer].m_gameGrid[0], size);
@@ -851,7 +848,7 @@ void endBox(short player)
 //
 // Called By:	loadGridFromFile
 //
-// Parameters:	char characterRead; the array element in question
+// Parameters:	characterRead: char; the array element in question
 // 
 // Returns:	Ship 
 //
@@ -878,4 +875,39 @@ Ship loadShip(char characterRead)
 	}
 	return static_cast<Ship>(characterRead);
 }
-
+//----------------------------------------------------------------------------
+// Function:	streamGrab()
+// Title:	Stream Grab
+// Description:
+//		performs .get() on a given ifstream a given amount of times
+// Programmer:	Cameron Stevenson
+// 
+// Date:	9/12/06
+//
+// Version:	1.0
+// 
+// Environment: Hardware: i3 
+//              Software: OS: Windows 10; 
+//              Compiles under Microsoft Visual C++ 2017
+//
+// Output:		
+//
+// Calls:
+//
+// Called By:	loadGridFromFile
+//
+// Parameters:	ifs: ifstream& ; reference to the ifstream 
+//				grabs: int; number of times to perform .get()
+// Returns:	void
+//
+// History Log: 
+//		9/12/06 PB comleted v 1.0
+//     
+//----------------------------------------------------------------------------
+void streamGrab(ifstream& ifs, int grabs)
+{
+	for (int i = 0; i < grabs; i++)
+	{
+		ifs.get();
+	}
+}

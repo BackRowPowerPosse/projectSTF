@@ -78,11 +78,11 @@ int main()
 	bool gameOver = false;
 	bool reshot = false;
 	Cell coord = {0, 0};
-	string message = "would you like to read starting grid from a file?";
+	string message = ", would you like to read starting grid from a file?";
 	string filename;
 	Ship shipHit = NOSHIP;
 	Player game[NUMPLAYERS]; // The two players in an array
-
+	ostringstream outSStream;
 	do
 	{
 		system("cls");
@@ -98,44 +98,32 @@ int main()
 		
 		for(whichPlayer = 0; whichPlayer < NUMPLAYERS; whichPlayer++)
 		{
+			outSStream.str("");
+			outSStream.clear();
 			// Enter grid files or let users enter ships
-			cout << "Player " << whichPlayer + 1 << ", ";
-			// Will be set to true if grid is succesfully opened or user
-			// decides to manually set ships
-			bool gridChoiceSuccess = false;
-		    while (!gridChoiceSuccess)
+			outSStream << "Player " << whichPlayer + 1 << message;
+			if (safeChoice(outSStream.str(), 'Y', 'N') == 'Y')
 			{
-				switch (safeChoice(message, 'Y', 'N'))
+				cout << "Enter file name: ";
+				std::cin >> filename;
+				cin.get();
+				filename.append(".shp");
+
+				if (!loadGridFromFile(game, whichPlayer, gridSize,
+					filename))
 				{
-					case 'Y':
-					{
-						gridChoiceSuccess = true;
-						cout << "Enter file name: ";
-						std::cin >> filename;
-						cin.get();
-						filename.append(".shp");
-						if (!loadGridFromFile(game, whichPlayer, gridSize, filename))
-						{
-							system("cls");
-							--whichPlayer;
-							continue;
-						}
-						if (safeChoice("OK?", 'Y', 'N') == 'N')
-						{
-							gridChoiceSuccess = false;
-							system("cls");
-						}
-						system("cls");
-						break;
-					}
-					case 'N':
-					{
-						gridChoiceSuccess = true;
-						setships(game, gridSize, whichPlayer);
-						break;
-					}
+					system("cls");
+					--whichPlayer;
+					continue;
 				}
+
+				if (safeChoice("OK?", 'Y', 'N') == 'N')
+					--whichPlayer;
+
+				system("cls");
 			}
+			else
+				setships(game, gridSize, whichPlayer);
 		}
 
 		// Pre-game header
