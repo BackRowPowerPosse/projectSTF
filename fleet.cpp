@@ -840,7 +840,7 @@ void endBox(short player)
 //
 // Called By:	loadGridFromFile
 //
-// Parameters:	char characterRead; the array element in question
+// Parameters:	characterRead: char; the array element in question
 // 
 // Returns:	Ship 
 //
@@ -867,7 +867,35 @@ Ship loadShip(char characterRead)
 	}
 	return static_cast<Ship>(characterRead);
 }
-
+//----------------------------------------------------------------------------
+// Function:	streamGrab()
+// Title:	Stream Grab
+// Description:
+//		performs .get() on a given ifstream a given amount of times
+// Programmer:	Cameron Stevenson
+// 
+// Date:	9/12/06
+//
+// Version:	1.0
+// 
+// Environment: Hardware: i3 
+//              Software: OS: Windows 10; 
+//              Compiles under Microsoft Visual C++ 2017
+//
+// Output:		
+//
+// Calls:
+//
+// Called By:	loadGridFromFile
+//
+// Parameters:	ifs: ifstream& ; reference to the ifstream 
+//				grabs: int; number of times to perform .get()
+// Returns:	void
+//
+// History Log: 
+//		9/12/06 PB comleted v 1.0
+//     
+//----------------------------------------------------------------------------
 void streamGrab(ifstream& ifs, int grabs)
 {
 	for (int i = 0; i < grabs; i++)
