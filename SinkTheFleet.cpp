@@ -114,7 +114,8 @@ int main()
 						std::cin >> filename;
 						cin.get();
 						filename.append(".shp");
-						loadGridFromFile(game, whichPlayer, gridSize, filename);
+						loadGridFromFile(game, whichPlayer, gridSize,
+							filename);
 						if (safeChoice("OK?", 'Y', 'N') == 'N')
 						{
 							gridChoiceSuccess = false;
