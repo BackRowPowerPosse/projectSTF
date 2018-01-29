@@ -545,24 +545,28 @@ bool loadGridFromFile(Player players[], short whichPlayer, char size,
 		ifs.open(fileName.c_str());
 		if(!ifs)
 		{
-			cout << "Could not open file " << fileName << endl
-				<< " Press <Enter> to continue" << endl;
+			cout << "could not open file " << fileName << endl
+				<< " press <enter> to continue" << endl;
 			cin.ignore(FILENAME_MAX, '\n');
 			return false;
 		}
 	} 
 	catch(exception e)
 	{
-		cout << "Could not open file " << fileName << endl
-			<< " press <Enter> to continue" << endl;
+		cout << "could not open file " << fileName << endl
+			<< " press <enter> to continue" << endl;
 		cin.ignore(FILENAME_MAX, '\n');
 		return false;
 	}	
+	// YOUR CODE GOES HERE ...
 
 	for (short i = 0; i < numberOfRows; ++i)
+	{
 		for (short j = 0; j < numberOfCols; ++j)
-			players[whichPlayer].m_gameGrid[0][i][j] = loadShip(ifs.get());
-	
+		{
+			players[whichPlayer].m_gameGrid[0][i][j] = static_cast<Ship>(loadShip(ifs.get()));
+		}
+	}
 	system("cls");
 	printGrid(cout, players[whichPlayer].m_gameGrid[0], size);
 	
@@ -793,23 +797,22 @@ void endBox(short player)
 	boxLine(cout, empty, BOXWIDTH);
 	boxBottom(cout, BOXWIDTH);
 }
-
-Ship loadShip(char characterRead)
+char loadShip(char characterRead)
 {
 	switch (characterRead)
 	{
-		case ' ':
-			return NOSHIP;
-		case 'M':
-			return MINESWEEPER;
-		case 'S':
-			return SUB;
-		case 'F':
-			return FRIGATE;
-		case 'B':
-			return BATTLESHIP;
-		case 'C':
-			return CARRIER;
+	case ' ': characterRead = 0;
+		break;
+	case 'M': characterRead = 1;
+		break;
+	case 'S': characterRead = 2;
+		break;
+	case 'F': characterRead = 3;
+		break;
+	case 'B': characterRead = 4;
+		break;
+	case 'C': characterRead = 5;
 	}
+	return characterRead;
 }
 
