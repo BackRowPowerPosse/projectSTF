@@ -506,7 +506,7 @@ void saveGrid(Player players[], short whichPlayer, char size)
 // Title:	loadGridFromFile 
 // Description:
 //		Reads grid from a file and properly sets the ships
-// Programmer:	Paul Bladek
+// Programmer:	Paul Bladek & Cameron Stevenson
 // modified by:	
 // 
 // Date:	9/12/06
@@ -832,7 +832,7 @@ void endBox(short player)
 // Title:	Load Ship 
 // Description:
 //		reverse of printShip() takes in a character and translates it to Ship
-// Programmer:	Paul Bladek
+// Programmer:	Cameron Stevenson & Albert Shymanskyy
 // 
 // Date:	9/12/06
 //
