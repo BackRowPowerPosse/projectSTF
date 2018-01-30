@@ -159,8 +159,7 @@ void allocMem(Player players[], char size)
 // Title:		Delete Memory
 // Description:
 //		Safely deletes memory for grids
-// Programmer:	Albert Shymanskyy
-//				Cameron Stevenson
+// Programmer: Paul Bladek/Cameron Stevenson/Albert Shymanskyy
 // 
 // Date:	12/20/05
 //
@@ -268,7 +267,7 @@ void printShip(ostream & sout, Ship thisShip)
 // Title:	Print Ship 
 // Description:
 //		Print grid element for the proper ship
-// Programmer:
+// Programmer: Cameron Stevenson
 // 
 // Date:	12/20/05
 //
@@ -306,12 +305,10 @@ void printGrid(ostream& sout, Ship** grid, char size)
 		sout << setw(3) << j;
 
 	sout  << endl;
-	char ch = 'A';
-
+	char ch = 'A'; // row indication character
 	for (short i = 0; i < numberOfRows; ++i)
 	{
-		sout << ch++;
-
+		sout << ch++; // each row increment
 		for (short j = 0; j < numberOfCols; ++j)
 			printShip(sout, grid[i][j]);
 
@@ -365,7 +362,7 @@ void initializePlayer(Player* playerPtr)
 // Title:	Set Ships 
 // Description:
 //		Allows user to put ships in grid
-// Programmer:	Paul Bladek
+// Programmer: Paul Blader/Cameron Stevenson/Albert Shymanskyy
 // modified by:	
 // 
 // Date:	9/12/06
@@ -409,8 +406,8 @@ void setShips(Player players[], char size, short whichPlayer)
 	{
 		system("cls");
 		printGrid(cout, players[whichPlayer].m_gameGrid[0], size);
-		outSStream.str("");
-		outSStream.clear();
+		outSStream.str(""); // reset contents of string stream
+		outSStream.clear(); // reset the flags
 		outSStream << "Player " << whichPlayer + 1 << " Enter "
 			<< shipNames[j] << " orientation";
 		input = safeChoice(outSStream.str(), 'V', 'H');
@@ -436,7 +433,7 @@ void setShips(Player players[], char size, short whichPlayer)
 		// Update the grid with cells of a new ship
 		if (input == 'V')
 			for (short k = 0; k < shipSize[j]; k++)
-				players[whichPlayer].m_gameGrid[0][location.m_row + k]
+				players[whichPlayer].m_gameGrid[0][location.m_row + k] 
 				[location.m_col] = static_cast<Ship>(j);
 		else
 			for (short k = 0; k < shipSize[j]; k++)
@@ -446,8 +443,8 @@ void setShips(Player players[], char size, short whichPlayer)
 		system("cls");
 
 		printGrid(cout, players[whichPlayer].m_gameGrid[0], size);
-		outSStream.str("");
-		outSStream.clear();
+		outSStream.str(""); // reset contents of stringstream
+		outSStream.clear(); // reset the flags
 		outSStream << "Player " << whichPlayer + 1 << " " << shipNames[j] << " OK?";
 		if (safeChoice(outSStream.str(), 'Y', 'N') == 'N')
 		{
@@ -518,7 +515,7 @@ void saveGrid(Player players[], short whichPlayer, char size)
 	saveFile.open(saveFilename.append(".shp"));
 	saveFile << static_cast<char>(toupper(size)) << endl;
 	printGrid(saveFile, players[whichPlayer].m_gameGrid[0], size);
-	saveFile.close();
+	saveFile.close(); 
 }
 
 //----------------------------------------------------------------------------
@@ -588,9 +585,9 @@ bool loadGridFromFile(Player players[], short whichPlayer, char size,
 		cin.ignore(FILENAME_MAX, '\n');
 		return false;
 	}	
-	if (ifs.get() == toupper(size))
+	if (ifs.get() == toupper(size)) //read the gridSize indication character 
 	{
-		ifs.get();
+		ifs.get(); // read the \n after (S/L)
 		for (short j = 0; j < numberOfCols; ++j) //read in the upper row.
 		{
 			streamGrab(ifs, 3); // 3 .get()'s
@@ -615,8 +612,9 @@ bool loadGridFromFile(Player players[], short whichPlayer, char size,
 
 		system("cls");
 		printGrid(cout, players[whichPlayer].m_gameGrid[0], size);
+		ifs.close(); // close in file
 	}
-	else 
+	else // incorrect gridSize indication character
 	{
 		system("cls");
 		cout << "file is incorrect grid size" << endl;
@@ -883,7 +881,7 @@ void endBox(short player)
 //----------------------------------------------------------------------------
 Ship loadShip(char characterRead)
 {
-	switch (characterRead)
+	switch (characterRead) // Translate character from loaded file to Ship
 	{
 	case ' ': characterRead = NOSHIP;
 		break;
@@ -932,6 +930,8 @@ Ship loadShip(char characterRead)
 //----------------------------------------------------------------------------
 void streamGrab(ifstream& ifs, int grabs)
 {
-	for (int i = 0; i < grabs; i++)
+	for (int i = 0; i < grabs; i++) // .get() grab amount of times
+	{
 		ifs.get();
+	}
 }

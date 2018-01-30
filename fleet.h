@@ -168,7 +168,7 @@ bool isValidLocation(const Player& player, short shipNumber, char size);
 // Prints opening graphic
 void header(ostream& sout);
 
-// Prints closinging graphic
+// Prints closing graphic
 void endBox(short player);
 
 // Converts a character to a ship
