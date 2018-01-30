@@ -70,8 +70,10 @@ extern const char* shipNames[7];
 //----------------------------------------------------------------------------
 int main()
 {
-	short numRows = SMALLROWS; // Total number of rows in the array
-	short numCols = SMALLCOLS; // Total number of columns in the array
+	// Total number of rows in the array
+	short numRows = SMALLROWS;
+	// Total number of columns in the array
+	short numCols = SMALLCOLS;
 	char again = 'N';
 	char gridSize = 'S';
 	short whichPlayer = 0;
@@ -82,8 +84,10 @@ int main()
 	string message = ", would you like to read starting grid from a file?";
 	string filename;
 	Ship shipHit = NOSHIP;
-	Player game[NUMPLAYERS]; // The two players in an array
+	// The two players in an array
+	Player game[NUMPLAYERS];
 	ostringstream outSStream;
+
 	do
 	{
 		system("cls");
@@ -92,10 +96,11 @@ int main()
 		gridSize = safeChoice("Which size grid to you want to use", 'S', 'L');
 		numRows = (toupper(gridSize) == 'L') ? LARGEROWS : SMALLROWS;
 		numCols = (toupper(gridSize) == 'L') ? LARGECOLS : SMALLCOLS;
-		
+
 		initializePlayer(game);		
 		initializePlayer(game + 1);
-		allocMem(game, gridSize); // Dynamically create the rows of the array
+		// Dynamically create the rows of the array
+		allocMem(game, gridSize);
 		
 		for(whichPlayer = 0; whichPlayer < NUMPLAYERS; whichPlayer++)
 		{
@@ -103,6 +108,7 @@ int main()
 			outSStream.clear();
 			// Enter grid files or let users enter ships
 			outSStream << "Player " << whichPlayer + 1 << message;
+
 			if (safeChoice(outSStream.str(), 'Y', 'N') == 'Y')
 			{
 				cout << "Enter file name: ";
@@ -124,7 +130,7 @@ int main()
 				system("cls");
 			}
 			else
-				setships(game, gridSize, whichPlayer);
+				setShips(game, gridSize, whichPlayer);
 		}
 
 		// Pre-game header
@@ -143,9 +149,10 @@ int main()
 
 			system("cls");
 			printGrid(cout, game[whichPlayer].m_gameGrid[1], gridSize);
-			cout << "Player " << whichPlayer + 1 << ", enter coordinates "
-				"for firing:" << endl;
+			cout << "Player " << whichPlayer + 1 << ", enter coordinates for"
+				"firing:" << endl;
 			coord = getCoord(cin, gridSize);
+
 			// Check if player shot at this cell
 			while (game[whichPlayer].m_gameGrid[1][coord.m_row][coord.m_col]
 				!= NOSHIP)
@@ -173,9 +180,7 @@ int main()
 
 				shipHit = game[whichPlayer].m_gameGrid[1][coord.m_row]
 					[coord.m_col] = HIT;
-				/*cout << '\a';*/
 				reshot = true;
-
 				// Alert the player of a hit
 				cout << '\a';
 			}
@@ -183,14 +188,17 @@ int main()
 			{
 				shipHit = game[whichPlayer].m_gameGrid[1][coord.m_row]
 					[coord.m_col] = MISSED;
+
 				if (reshot) reshot = false;
 			}
 
 			system("cls");
 			printGrid(cout, game[whichPlayer].m_gameGrid[1], gridSize);
 			cout << ((shipHit == 6) ? "HIT" : "MISSED") << endl;
+
 			// Print which ship sank
 			if (shipSunk) cout << shipNames[whichShip] << " SUNK" << endl;
+
 			cout << "Press <Enter> to continue...";
 			cin.get();
 

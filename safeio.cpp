@@ -21,9 +21,9 @@
 //
 // Version: 1.0
 // 
-// Environment: Hardware: i5 
-//              Software: OS: Windows 10; 
-//              Compiles under Microsoft Visual C++ 20117
+// Environment: Hardware: PC
+//              Software: Windows 10 
+//              Compiles under Microsoft Visual C++ 2017
 //
 // Input:		char input from console
 //
@@ -32,7 +32,7 @@
 // Calls: none
 //
 // Called By:	main()
-//				setships()
+//				setShips()
 //
 //
 // Parameters:	prompt: string; prompt for input

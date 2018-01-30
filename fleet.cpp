@@ -1,28 +1,29 @@
 //----------------------------------------------------------------------------
 // File:		fleet.cpp
 // 
-// Functions:	 
-//				setShipInfo()	
+// Functions:	setShipInfo()	
 //				allocMem() 
 //				deleteMem()
 //				printShip() 
 //				printGrid() 
 //				initializePlayer() 
-//				setships()	      
+//				setShips()	      
 //				saveGrid()
 //				loadGridFromFile()
 //				getCoord()
 //				isValidLocation() 
 //				header() 
-//				endBox() 
+//				endBox()
+//				loadShip()
+//				streamGrab()
 //----------------------------------------------------------------------------
 
 #include "fleet.h"
 
-const char* shipNames[SHIP_SIZE_ARRAYSIZE] =
-	{"No Ship", "Mine Sweeper", "Submarine",
-	 "Frigate", "Battleship", "Aircraft Carrier"};
-const int TOTALPIECES = 17; // Total pieces in all ships
+const char* shipNames[SHIP_SIZE_ARRAYSIZE] = {"No Ship", "Mine Sweeper",
+	"Submarine", "Frigate", "Battleship", "Aircraft Carrier"};
+// Total pieces in all ships
+const int TOTALPIECES = 17;
 
 //----------------------------------------------------------------------------
 // Function:	setShipInfo()
@@ -33,23 +34,30 @@ const int TOTALPIECES = 17; // Total pieces in all ships
 //
 // Programmer:	Albert Shymanskyy
 // 
-// Date:		12/20/05
+// Date:		01/30/18
 //
-// Version:		0.1
+// Version:		1.0.0
 // 
 // Environment: 
+//				Hardware: PC
 //              Software: Windows 10 
 //              Compiles under Microsoft Visual C++ 2017
 //
-// Calls: None
+// Input:		Information about the ship
 //
-// Called By: initializePlayer()
+// Output:		None
 //
-// Parameters:	shipInfoPtr: ShipInfo *; pointer to the ShipInfo to be set
-//	name: Ship;	enumerated name of type of ship; default: NOSHIP
-//	orientation: Direction;	enumerated direction; default: HORIZONTAL
-//	row: unsigned short; row-coordinate in grid; default: 0
-//	col: unsigned short; column-coordinate in grid; default: 0
+// Calls:		None
+//
+// Called By:	initializePlayer()
+//
+// Parameters:	
+//				shipInfoPtr: ShipInfo *; pointer to the ShipInfo to be set
+//				name: Ship;	enumerated name of type of ship; default: NOSHIP
+//				orientation:
+//					Direction; enumerated direction; default: HORIZONTAL
+//				row: unsigned short; row-coordinate in grid; default: 0
+//				col: unsigned short; column-coordinate in grid; default: 0
 // 
 // Returns:	void
 //
@@ -74,17 +82,18 @@ void setShipInfo(ShipInfo * shipInfoPtr, Ship name, Direction orientation,
 // Description:
 //		allocates memory for current grids
 // Programmer:	Paul Bladek
-// modified by:	
+// modified by:	Albert Shymanskyy
+//				Cameron Stevenson
 // 
 // Date:	9/13/06
 //
 // Version:	1.01
 // 
-// Environment: Hardware: i3 
-//              Software: OS: Windows 10; 
-//              Compiles under Microsoft Visual C++ 2015
+// Environment: Hardware: PC
+//              Software: Windows 10 
+//              Compiles under Microsoft Visual C++ 2017
 //
-// Calls:
+// Calls:		deleteMem()
 //
 // Called By:	main()
 //
@@ -150,19 +159,21 @@ void allocMem(Player players[], char size)
 // Title:		Delete Memory
 // Description:
 //		Safely deletes memory for grids
-// Programmer:
+// Programmer:	Albert Shymanskyy
+//				Cameron Stevenson
 // 
 // Date:	12/20/05
 //
 // Version:	0.1
 // 
-// Environment: Hardware: i3 
-//              Software: OS: Windows 10; 
+// Environment: Hardware: PC
+//              Software: Windows 10 
 //              Compiles under Microsoft Visual C++ 2017
 //
-// Calls:
+// Calls:		None
 //
 // Called By:	main()
+//				allocMem()
 //
 // Parameters:	players: Player[]; 	the array of the 2 Players
 //		size: char;	'	S' or 'L'
@@ -194,7 +205,6 @@ void deleteMem(Player players[], char size)
 				delete[] players[i].m_gameGrid[whichGrid];
 		}
 	}
-	//cout << "Delete function completed" << endl;
 }
 
 //----------------------------------------------------------------------------
@@ -208,13 +218,13 @@ void deleteMem(Player players[], char size)
 //
 // Version:	1.0
 // 
-// Environment: Hardware: i3 
-//              Software: OS: Windows 10; 
+// Environment: Hardware: PC
+//              Software: Windows 10 
 //              Compiles under Microsoft Visual C++ 2017
 //
 // Output:		three characters representing one ship to sout
 //
-// Calls:
+// Calls:		None
 //
 // Called By:	printGrid()
 //
@@ -264,8 +274,8 @@ void printShip(ostream & sout, Ship thisShip)
 //
 // Version:	0.1
 // 
-// Environment: Hardware: i3 
-//              Software: OS: Windows 10; 
+// Environment: Hardware: PC
+//              Software: Windows 10 
 //              Compiles under Microsoft Visual C++ 2017
 //
 // Output:	a single grid to sout
@@ -273,8 +283,9 @@ void printShip(ostream & sout, Ship thisShip)
 // Calls:	printShip()
 //
 // Called By:	main()
-//		setships()
-//		saveGrid()
+//				setShips()
+//				saveGrid()
+//				loadGridFromFile()
 //
 // Parameters:	sout: ostream&;	the stream to print to
 //		grid: Ship**;	the 2-D array of Ships 
@@ -293,21 +304,23 @@ void printGrid(ostream& sout, Ship** grid, char size)
 
 	for(short j = 1; j <= numberOfCols; ++j)
 		sout << setw(3) << j;
+
 	sout  << endl;
 	char ch = 'A';
+
 	for (short i = 0; i < numberOfRows; ++i)
 	{
 		sout << ch++;
+
 		for (short j = 0; j < numberOfCols; ++j)
-		{
 			printShip(sout, grid[i][j]);
-		}
+
 		sout << endl;
 		sout << HORIZ;
+
 		for (short j = 0; j < numberOfCols; ++j)
-		{
 			sout << HORIZ << HORIZ << CR;
-		}
+
 		sout << endl;
 	} 
 } 
@@ -323,11 +336,11 @@ void printGrid(ostream& sout, Ship** grid, char size)
 //
 // Version:	1.0
 // 
-// Environment: Hardware: i3 
-//              Software: OS: Windows 10; 
+// Environment: Hardware: PC
+//              Software: Windows 10 
 //              Compiles under Microsoft Visual C++ 2017
 //
-// Calls:
+// Calls:		setShipInfo()
 //
 // Called By:	main()
 //
@@ -348,7 +361,7 @@ void initializePlayer(Player* playerPtr)
 }
 
 //----------------------------------------------------------------------------
-// Function:	setships()
+// Function:	setShips()
 // Title:	Set Ships 
 // Description:
 //		Allows user to put ships in grid
@@ -359,8 +372,8 @@ void initializePlayer(Player* playerPtr)
 //
 // Version:	0.5
 // 
-// Environment: Hardware: i3 
-//              Software: OS: Windows 10; 
+// Environment: Hardware: PC
+//              Software: Windows 10 
 //              Compiles under Microsoft Visual C++ 2017
 //
 // Input:	location and orientation using getCoord from cin
@@ -368,9 +381,10 @@ void initializePlayer(Player* playerPtr)
 // Output:	prompts to cout
 //
 // Calls:	printGrid()
-//		safeChoice()
-//		getCoord()
-//		saveGrid()
+//			safeChoice()
+//			getCoord()
+//			saveGrid()
+//			isValidLocation()
 //
 // Called By:	main()
 //
@@ -384,7 +398,7 @@ void initializePlayer(Player* playerPtr)
 //		9/12/06 PB comleted v 0.5
 //     
 //----------------------------------------------------------------------------
-void setships(Player players[], char size, short whichPlayer)
+void setShips(Player players[], char size, short whichPlayer)
 {
 	char input = 'V';
 	char ok = 'Y';
@@ -470,8 +484,8 @@ void setships(Player players[], char size, short whichPlayer)
 //
 // Version:	0.1
 // 
-// Environment: Hardware: i3 
-//              Software: OS: Windows 10; 
+// Environment: Hardware: PC
+//              Software: Windows 10 
 //              Compiles under Microsoft Visual C++ 2017
 //
 // Output:	grid to specified file
@@ -519,15 +533,16 @@ void saveGrid(Player players[], short whichPlayer, char size)
 //
 // Version:	0.5
 // 
-// Environment: Hardware: i3 
-//              Software: OS: Windows 10; 
+// Environment: Hardware: PC
+//              Software: Windows 10 
 //              Compiles under Microsoft Visual C++ 2017
 //
 // Input:	grid from specified file
 //
 // Output:	prompts to cout
 //
-// Calls:
+// Calls:		streamGrab()
+//				loadShip()
 //
 // Called By:	main()
 //
@@ -623,18 +638,18 @@ bool loadGridFromFile(Player players[], short whichPlayer, char size,
 //
 // Version:	1.0
 // 
-// Environment: Hardware: i3 
-//              Software: OS: Windows 10; 
+// Environment: Hardware: PC
+//              Software: Windows 10 
 //              Compiles under Microsoft Visual C++ 2017
 //
 // Input:	cell coordinates (in the form "A13" from sin
 //
 // Output:	prompts to cout
 //
-// Calls:	none
+// Calls:		none
 //
 // Called By:	main()
-//		setships()
+//				setships()
 //
 // Parameters:	sin: istream&;	the stream to read from
 //		size: char;	'S' or 'L'
@@ -689,13 +704,13 @@ Cell getCoord(istream& sin, char size)
 //
 // Version:	0.1
 // 
-// Environment: Hardware: i3 
-//              Software: OS: Windows 10; 
+// Environment: Hardware: PC
+//              Software: Windows 10 
 //              Compiles under Microsoft Visual C++ 2017
 //
-// Calls:
+// Calls:		None
 //
-// Called By:
+// Called By:	setShips()
 //
 // Parameters:	player: const Player&;	a reference to the specific Player
 //		shipNumber: short;	the number of the ship (1 - 5)
@@ -759,15 +774,15 @@ bool isValidLocation(const Player& player, short shipNumber, char size)
 //
 // Version:	1.0
 // 
-// Environment: Hardware: i3 
-//              Software: OS: Windows 10; 
+// Environment: Hardware: PC
+//              Software: Windows 10 
 //              Compiles under Microsoft Visual C++ 2017
 //
 // Output:	
 //
-// Calls:	boxTop()
-//		boxLine()
-//		boxBottom()
+// Calls:		boxTop()
+//				boxLine()
+//				boxBottom()
 //
 // Called By:	main()
 //
@@ -805,8 +820,8 @@ void header(ostream& sout)
 //
 // Version:	1.0
 // 
-// Environment: Hardware: i3 
-//              Software: OS: Windows 10; 
+// Environment: Hardware: PC
+//              Software: Windows 10 
 //              Compiles under Microsoft Visual C++ 2017
 //
 // Output:	
@@ -836,6 +851,7 @@ void endBox(short player)
 	boxLine(cout, empty, BOXWIDTH);
 	boxBottom(cout, BOXWIDTH);
 }
+
 //----------------------------------------------------------------------------
 // Function:	loadShip()
 // Title:	Load Ship 
@@ -847,13 +863,13 @@ void endBox(short player)
 //
 // Version:	1.0
 // 
-// Environment: Hardware: i3 
-//              Software: OS: Windows 10; 
+// Environment: Hardware: PC
+//              Software: Windows 10 
 //              Compiles under Microsoft Visual C++ 2017
 //
 // Output:		What type of ship according to the Ship enum
 //
-// Calls:
+// Calls:		None
 //
 // Called By:	loadGridFromFile
 //
@@ -884,6 +900,7 @@ Ship loadShip(char characterRead)
 	}
 	return static_cast<Ship>(characterRead);
 }
+
 //----------------------------------------------------------------------------
 // Function:	streamGrab()
 // Title:	Stream Grab
@@ -895,13 +912,13 @@ Ship loadShip(char characterRead)
 //
 // Version:	1.0
 // 
-// Environment: Hardware: i3 
-//              Software: OS: Windows 10; 
+// Environment: Hardware: PC
+//              Software: Windows 10 
 //              Compiles under Microsoft Visual C++ 2017
 //
 // Output:		
 //
-// Calls:
+// Calls:		None
 //
 // Called By:	loadGridFromFile
 //
@@ -916,7 +933,5 @@ Ship loadShip(char characterRead)
 void streamGrab(ifstream& ifs, int grabs)
 {
 	for (int i = 0; i < grabs; i++)
-	{
 		ifs.get();
-	}
 }
