@@ -500,8 +500,9 @@ void saveGrid(Player players[], short whichPlayer, char size)
 	system("cls");
 	cout << "Enter name of file to save to (.shp will be added):";
 	cin >> saveFilename;
-	cin.get();
+	cin.get(); // reads in \n char after filename entered.
 	saveFile.open(saveFilename.append(".shp"));
+	saveFile << static_cast<char>(toupper(size)) << endl;
 	printGrid(saveFile, players[whichPlayer].m_gameGrid[0], size);
 	saveFile.close();
 }
@@ -572,31 +573,42 @@ bool loadGridFromFile(Player players[], short whichPlayer, char size,
 		cin.ignore(FILENAME_MAX, '\n');
 		return false;
 	}	
-
-	for (short j = 0; j < numberOfCols; ++j) //read in the upper row.
+	if (ifs.get() == toupper(size))
 	{
-		streamGrab(ifs, 3); // 3 .get()'s
-	}
-	ifs.get(); //read in newline character
+		ifs.get();
+		for (short j = 0; j < numberOfCols; ++j) //read in the upper row.
+		{
+			streamGrab(ifs, 3); // 3 .get()'s
+		}
+		ifs.get(); //read in newline character
 
-	// for each row after read skip one, grab the character, skip the bar
-	for (short i = 0; i < numberOfRows; ++i)
-	{
-		for (short j = 0; j < numberOfCols; ++j)
+		// for each row after read skip one, grab the character, skip the bar
+		for (short i = 0; i < numberOfRows; ++i)
 		{
-			streamGrab(ifs, 2); //read in row-letter/vertical bar + read in space
-			players[whichPlayer].m_gameGrid[0][i][j] = loadShip(ifs.get());	
+			for (short j = 0; j < numberOfCols; ++j)
+			{
+				streamGrab(ifs, 2); //read in row-letter/vertical bar + read in space
+				players[whichPlayer].m_gameGrid[0][i][j] = loadShip(ifs.get());
+			}
+			streamGrab(ifs, 2); //read in the vertical bar + newline after each row
+			for (short j = 0; j < numberOfCols; ++j) //read in HORZ/CR rows
+			{
+				streamGrab(ifs, 3);
+			}
+			streamGrab(ifs, 2); //read in the vertical bar + newline characters
 		}
-		streamGrab(ifs, 2); //read in the vertical bar + newline after each row
-		for (short j = 0; j < numberOfCols; ++j) //read in HORZ/CR rows
-		{
-			streamGrab(ifs, 3);
-		}
-		streamGrab(ifs, 2); //read in the vertical bar + newline characters
+
+		system("cls");
+		printGrid(cout, players[whichPlayer].m_gameGrid[0], size);
 	}
-	system("cls");
-	printGrid(cout, players[whichPlayer].m_gameGrid[0], size);
-	
+	else 
+	{
+		system("cls");
+		cout << "file is incorrect grid size" << endl;
+		cout << " press <enter> to continue";
+		cin.ignore(FILENAME_MAX, '\n');
+		return false;
+	}
 	return true;
 }
 
