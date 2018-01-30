@@ -32,8 +32,8 @@ void safeRead(istream& sin, T& input,
 //
 // Version: 1.0
 // 
-// Environment: Hardware: i5 
-//              Software: OS: Windows 10; 
+// Environment: Hardware: PC
+//              Software: Windows 10 
 //              Compiles under Microsoft Visual C++ 2017
 //
 // Input: T& input from istream& sin

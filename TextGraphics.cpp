@@ -1,40 +1,45 @@
 //----------------------------------------------------------------------------
-// File:	TextGraphics.cpp
+// File:	  TextGraphics.cpp
 // 
 // Functions:
-//      boxTop()
-//      boxBottom()
-//      boxLine()
+//			  boxTop()
+//			  boxBottom()
+//			  boxLine()
 //----------------------------------------------------------------------------
 
 #include "textGraphics.h"
+
 //----------------------------------------------------------------------------
 // Function:	boxTop()
-// Title:	Box Top
-// Description:
-//		draws a a line for the top of the box
+//
+// Title:		Box Top
+//
+// Description: Draws a a line for the top of the box
+//
 // Programmer:	Paul Bladek
 // 
-// Date:	10/3/2006
+// Date:		10/3/2006
 //
-// Version:	1.01
+// Version:		1.01
 // 
-// Environment: Hardware: i5 
-//              Software: OS: Windows 10; 
+// Environment: 
+//				Hardware: PC
+//              Software: Windows 10 
 //              Compiles under Microsoft Visual C++ 2017
 //
-// Output:	Formatted line to sout
+// Output:		Formatted line to sout
 //
-// Called By:	header()
-//		endbox()
+// Called By:	
+//				header()
+//				endbox()
 //
-// Parameters:	sout: ostream&;		stream to print to
-//		ength: unsigned short;	length of the box
+// Parameters:	sout: ostream& -- stream to print to
+//				length: unsigned short -- length of the box
 // 
-// Returns:	void
+// Returns:		Void
 //
 // History Log:	
-//		10/3/2006	PB completed v 1.01
+//				10/3/2006 PB completed v 1.01
 //   
 //----------------------------------------------------------------------------
 void boxTop(ostream& sout, unsigned short length)
@@ -50,31 +55,35 @@ void boxTop(ostream& sout, unsigned short length)
 
 //----------------------------------------------------------------------------
 // Function:	boxBottom()
-// Title:	Box Bottom
-// Description:
-//		draws a a line for the bottom of the box
+//
+// Title:		Box Bottom
+//
+// Description: Draws a a line for the bottom of the box
+//
 // Programmer:	Paul Bladek
 // 
-// Date:	10/3/2006
+// Date:		10/3/2006
 //
-// Version:	1.01
+// Version:		1.01
 // 
-// Environment: Hardware: i5 
-//              Software: OS: Windows 10; 
+// Environment: Hardware: PC
+//              Software: Windows 10 
 //              Compiles under Microsoft Visual C++ 2017
 //
-// Output:	Formatted line to sout
+// Output:		Formatted line to sout
 //
-// Called By:	header()
-//		endbox()
+// Called By:	
+//				header()
+//				endbox()
 //
-// Parameters:	sout: ostream&;		stream to print to
-//		ength: unsigned short;	length of the box
+// Parameters:
+//				sout: ostream& -- stream to print to
+//				length: unsigned short -- length of the box
 // 
-// Returns:		void
+// Returns:		Void
 //
 // History Log:	
-//		10/3/2006 PB completed v 1.01
+//				10/3/2006 PB completed v 1.01
 //   
 //----------------------------------------------------------------------------
 void boxBottom(ostream& sout, unsigned short length)
@@ -87,6 +96,7 @@ void boxBottom(ostream& sout, unsigned short length)
 	sout.put(LR);
 	sout << endl;
 }
+
 //----------------------------------------------------------------------------
 // Function:	boxLine()
 // Title:	Box Line
@@ -98,9 +108,9 @@ void boxBottom(ostream& sout, unsigned short length)
 //
 // Version:	1.01
 // 
-// Environment: Hardware: i3 
-//              Software: OS: Windows 7; 
-//              Compiles under Microsoft Visual C++ 2015
+// Environment: Hardware: PC
+//              Software: Windows 10 
+//              Compiles under Microsoft Visual C++ 2017
 //
 // Output:	Formatted text to sout
 //
