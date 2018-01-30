@@ -77,7 +77,6 @@ int main()
 	char again = 'N';
 	char gridSize = 'S';
 	short whichPlayer = 0;
-	bool gridChoiceSuccess;
 	bool gameOver = false;
 	bool reshot = false;
 	Cell coord = {0, 0};

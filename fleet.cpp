@@ -796,13 +796,15 @@ void header(ostream& sout)
 {
 	const string empty;
 	const string sink("SINK THE FLEET!");
-	// your name goes here!
-	const string by("Edmonds Community College CS 132");
+	const string by("Albert Shymanskyy and Cameron Stevenson");
+	const string institution("Edmonds Community College CS 132");
 	boxTop(sout, BOXWIDTH);
 	boxLine(sout, empty, BOXWIDTH);
 	boxLine(sout, sink , BOXWIDTH, 'C');
 	boxLine(sout, empty, BOXWIDTH);
 	boxLine(sout, by, BOXWIDTH, 'C');
+	boxLine(sout, empty, BOXWIDTH);
+	boxLine(sout, institution, BOXWIDTH, 'C');
 	boxLine(sout, empty, BOXWIDTH);
 	boxBottom(sout, BOXWIDTH);
 }
