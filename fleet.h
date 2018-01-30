@@ -146,10 +146,14 @@ bool isValidLocation(const Player& player, short shipNumber, char size);
 //----------------------------------------------------------------------------
 // prints opening graphic
 void header(ostream& sout);
+
 // prints closinging graphic
 void endBox(short player);		
+
 // converts a character to a ship
 Ship loadShip(char characterRead);
+
 // uses .get() on an ifstream grab amount of times.
 void streamGrab(ifstream& ifs, int grabs);
+
 #endif
